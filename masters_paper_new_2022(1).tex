@@ -1,0 +1,901 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\author{}
+\date{}
+
+\begin{document}
+
+\begin{quote}
+Predicting the Quality of CDRH3 Antibody Loop Structural Models
+
+From the Department of Structural and Molecular Biology,
+
+University College of London, Gower Street, London WC1E 6BT UK
+\end{quote}
+
+\hypertarget{abstract}{%
+\section{ABSTRACT}\label{abstract}}
+
+\hypertarget{therapeutic-antibodies-have-shown-an-unprecedented-pace-of-development-and-have-brought-new-hope-for-the-treatment-of-numerous-diseases.-the-bioinformatic-tools-for-modelling-antibody-structures-have-become-invaluable-for-antibody-engineering-and-the-development-of-therapeutic-antibodies.-the-antigen-binding-site-consists-of-six-hypervariable-loops-also-known-as-the-complementary-determining-regions-cdr-all-of-which-can-be-modelled-with-adequate-accuracy-except-for-one.-it-remains-markedly-difficult-to-model-the-third-cdr-loop-of-the-antibody-heavy-chain.-the-cdrh3-differs-in-length-has-far-greater-sequence-variability-and-has-such-a-great-structural-diversity-that-modelling-it-is-considerably-harder.}{%
+\section{\texorpdfstring{Therapeutic antibodies have shown an
+unprecedented pace of development and have brought new hope for the
+treatment of numerous diseases. The bioinformatic tools for modelling
+antibody structures have become invaluable for antibody engineering and
+the development of therapeutic antibodies. The antigen-binding site
+consists of six hypervariable loops, also known as the Complementary
+Determining Regions (CDR), all of which can be modelled with adequate
+accuracy, except for one. It remains markedly difficult to model the
+third CDR loop of the antibody heavy chain. The CDRH3 differs in length,
+has far greater sequence variability and has such a great structural
+diversity that modelling it is considerably harder.
+}{Therapeutic antibodies have shown an unprecedented pace of development and have brought new hope for the treatment of numerous diseases. The bioinformatic tools for modelling antibody structures have become invaluable for antibody engineering and the development of therapeutic antibodies. The antigen-binding site consists of six hypervariable loops, also known as the Complementary Determining Regions (CDR), all of which can be modelled with adequate accuracy, except for one. It remains markedly difficult to model the third CDR loop of the antibody heavy chain. The CDRH3 differs in length, has far greater sequence variability and has such a great structural diversity that modelling it is considerably harder. }}\label{therapeutic-antibodies-have-shown-an-unprecedented-pace-of-development-and-have-brought-new-hope-for-the-treatment-of-numerous-diseases.-the-bioinformatic-tools-for-modelling-antibody-structures-have-become-invaluable-for-antibody-engineering-and-the-development-of-therapeutic-antibodies.-the-antigen-binding-site-consists-of-six-hypervariable-loops-also-known-as-the-complementary-determining-regions-cdr-all-of-which-can-be-modelled-with-adequate-accuracy-except-for-one.-it-remains-markedly-difficult-to-model-the-third-cdr-loop-of-the-antibody-heavy-chain.-the-cdrh3-differs-in-length-has-far-greater-sequence-variability-and-has-such-a-great-structural-diversity-that-modelling-it-is-considerably-harder.}}
+
+\hypertarget{many-sophisticated-approaches-for-antibody-modelling-such-as-the-abymod-software-have-been-developed.-although-such-efforts-have-improved-prediction-accuracy-the-results-for-the-cdrh3-loop-are-still-inconsistent-and-require-further-improvement.-providing-a-confidence-score-for-the-structure-predictions-would-aid-in-differentiating-well-modelled-structures-from-incorrectly-modelled-structures-giving-the-abymod-user-a-clearer-understanding-of-the-generated-model-reliability.}{%
+\section{\texorpdfstring{Many sophisticated approaches for antibody
+modelling, such as the abYmod software, have been developed. Although
+such efforts have improved prediction accuracy the results for the CDRH3
+loop are still inconsistent and require further improvement. Providing a
+confidence score for the structure predictions would aid in
+differentiating well-modelled structures from incorrectly modelled
+structures, giving the abYmod user a clearer understanding of the
+generated model reliability.
+}{Many sophisticated approaches for antibody modelling, such as the abYmod software, have been developed. Although such efforts have improved prediction accuracy the results for the CDRH3 loop are still inconsistent and require further improvement. Providing a confidence score for the structure predictions would aid in differentiating well-modelled structures from incorrectly modelled structures, giving the abYmod user a clearer understanding of the generated model reliability. }}\label{many-sophisticated-approaches-for-antibody-modelling-such-as-the-abymod-software-have-been-developed.-although-such-efforts-have-improved-prediction-accuracy-the-results-for-the-cdrh3-loop-are-still-inconsistent-and-require-further-improvement.-providing-a-confidence-score-for-the-structure-predictions-would-aid-in-differentiating-well-modelled-structures-from-incorrectly-modelled-structures-giving-the-abymod-user-a-clearer-understanding-of-the-generated-model-reliability.}}
+
+\hypertarget{we-present-a-model-quality-predictor-combining-domain-knowledge-with-machine-learning-techniques-to-predict-the-accuracy-of-cdrh3-models-generated-by-abymod.-the-newly-developed-predictor-scored-a-mathews-correlation-coefficient-of-0.63-thus-its-reliability-could-be-demonstrated.}{%
+\section{We present a model quality predictor, combining domain
+knowledge with machine learning techniques to predict the accuracy of
+CDRH3 models generated by abYmod. The newly developed predictor scored a
+Mathews Correlation Coefficient of 0.63, thus its reliability could be
+demonstrated.}\label{we-present-a-model-quality-predictor-combining-domain-knowledge-with-machine-learning-techniques-to-predict-the-accuracy-of-cdrh3-models-generated-by-abymod.-the-newly-developed-predictor-scored-a-mathews-correlation-coefficient-of-0.63-thus-its-reliability-could-be-demonstrated.}}
+
+\hypertarget{we-conclude-our-predictor-may-prove-useful-for-abymod-users-and-would-be-a-useful-future-addition-to-the-modelling-software-web-interface.}{%
+\section{\texorpdfstring{We conclude our predictor may prove useful for
+abYmod users and would be a useful future addition to the modelling
+software web interface.
+}{We conclude our predictor may prove useful for abYmod users and would be a useful future addition to the modelling software web interface. }}\label{we-conclude-our-predictor-may-prove-useful-for-abymod-users-and-would-be-a-useful-future-addition-to-the-modelling-software-web-interface.}}
+
+Antibodies are highly specialized proteins of the immune system that are
+produced in response to a foreign substance, called an antigen. A mature
+antibody binds a specific antigen with high affinity, while only weakly
+interacting with other antigens, or not at all. This high affinity, high
+specificity sets it apart from other pharmaceuticals. Furthermore, in
+contrast with small drug molecules, antibodies can not only bind
+pockets, but also flat, concave or even convex
+surfaces\textsuperscript{1}. Their unique characteristics have enabled
+researchers to develop efficient antibody drugs for treating cancers,
+autoimmune disorders, infectious diseases and many more
+\textsuperscript{2}. Their ability to target an immense variety of
+antigens allows for endless possibilities in application. The global
+market size was valued at USD 130.9 billion in 2020, estimated to grow
+223.7 billion by the end of 2025 at a compound annual growth rate of
+11.31\% \textsuperscript{3}. Four of the top 10 best-selling drugs in
+2020 were monoclonal antibodies \textsuperscript{4}.
+
+In order to rationally design therapeutic antibodies, knowledge of their
+structure is essential. The acquired structural information can be used
+to increase binding affinity to a target of interest, predicting both
+the exact binding site and the antibody stability as well as assessing
+immunogenicity \textsuperscript{5}. As experimental structure
+determination is very costly and time consuming, computational
+predictions of an antibody's structure are used to streamline the
+process.
+
+Antibodies consist of a heavy and a light chain, which are linked by
+disulphide bonds. The N-terminal domain of each makes up the variable
+fragment (Fv), which contains the complementarity determining regions
+(CDRs). The antigen binding site is composed of six CDRs, also known as
+hypervariable loops. All except one of these loops can be clustered into
+a limited number of canonical structures. Therefore, modelling these
+loops with adequate accuracy is commonly achievable
+\textsuperscript{6,7}. However, the CDR loop 3 of the heavy chain
+(CDRH3) has a far greater sequence variability due to the processes of
+V(D)J recombination and somatic hyper‐mutation and its structure has
+remained unclassifiable \textsuperscript{8}. The variety in structure is
+so great, that its structural diversity is remarkable even compared to
+other protein loops \textsuperscript{9}. It was found that over 75\% of
+CDRH3 loops do not have a sub-Angstrom non-antibody structural
+neighbour, as well as that 30\% of CDRH3 loops have a completely unique
+structure compared with under 3\% for all other loops on average
+\textsuperscript{9}.
+
+Apart from being the most structurally diverse, the H3 loop is also the
+most important for antigen binding, being located at the center of the
+binding site and forming the most contacts to the antigen
+\textsuperscript{10}. In fact, it was demonstrated that differences in
+this loop alone were sufficient to enable otherwise identical antibodies
+to distinguish between various antigens \textsuperscript{11}.
+
+\includegraphics[width=6.51667in,height=2.55833in]{media/image1.png}
+According to the Kabat definition, the CDRH3 loop is made up of the
+residues 95-105 (Kabat numbering scheme\textsuperscript{12}) in the
+heavy chain, with a potential insertion site at position 100. The
+possibility of such an insertion of a varying number of residues leads
+to a large range of loop lengths, with bovine antibodies being
+exceptionally long (Fig.1).
+
+For shorter loops, a higher prediction accuracy can be achieved than for
+longer CDRH3 loops. This was also shown by the Antibody Modelling
+Assessments (AMA), two blind contests that required researchers to build
+structural models from antibody sequences. The CDR-H3 loop modelling
+quality achieved at the contests was on average much lower for loops of
+longer lengths \textsuperscript{13,14}.
+
+Several different approaches for generating three-dimensional structure
+models from antibody sequences exist such as RosettaAntibody
+\textsuperscript{15,16}, ABodyBuilder\textsuperscript{17},
+PIGSPro\textsuperscript{18} and abYmod, UCL's in-house software
+developed by Prof. Martin. One of the most used methods is
+RosettaAntibody, which implements template selection and ab initio
+CDR-H3 loop modelling using loop fragments and employing specific angle
+restraints which bias the conformational space towards so-called
+`kinked' loops\textsuperscript{19,20}. In contrast, ABodyBuilder uses a
+database search algorithm (FREAD\textsuperscript{21}) for CDR loop
+modelling.
+
+In this project abYmod is used, which is to be found at
+\url{http://abymod.abysis.org/}. The program utilizes extensive
+canonical class definitions, VH/VL angle prediction and a large database
+of loop structures (LoopDB) for CDR-H3 modelling to achieve optimal
+results. Upon inputting an antibody sequence, abYmod assigns the
+canonical class using a set of key residues \textsuperscript{22}and
+where an exact match is not possible, a nearest match is made. Then, the
+program identifies the 10 best overall-matching PDB files according to
+sequence identity for the light and heavy chain. Of these, the best
+template is then identified for each CDR using sequence similarity and
+identity. In general, modelling the antibody using the single best
+overall-matching template works best and the CDR-specific templates are
+used if there is no canonical match. The VH/VL packing angle is then
+determined either using machine learning or the chosen template
+structure for one of the chains. CDR specific templates, if selected,
+are grafted onto the framework. If there is no template of the correct
+length for CDR-H3, the loop is built using the LoopDB database,
+containing CDRH3-like loops from all proteins. Finally, Gromacs energy
+minimization software is used to optimize the model. This method has
+proven very effective and preliminary analysis suggests the method
+achieves comparable results or outperforms other modelling software (see
+results section).
+
+\includegraphics[width=5.78542in,height=3.34583in]{media/image7.png}\includegraphics[width=2.61914in,height=2.05972in]{media/image9.png}
+Using these mentioned modelling methods, framework regions can generally
+be predicted with great accuracy (with better than 1Å
+RMSD\textsuperscript{13}), as one can often find a very similar
+structure for the homology modelling process. However, the CDR loops are
+not as easily predicted due to their great diversity. If the canonical
+conformation of CDR loops 1-5 can be identified, they too can be
+modelled rather well, often within 1Å RMSD, for CDR-H3 loops the average
+is usually above 3Å \textsuperscript{13}.
+
+\includegraphics[width=3.32639in,height=3.65972in]{media/image10.png}To
+our knowledge, ABodyBuilder is the only modelling server that provides
+the user with a confidence score for each region (e.g.CDR-H2) of the
+antibody model. The given score is the probability that a specific
+region (e.g. CDR-H2) will be Thus, it can be used to obtain an expected
+RMSD value for a given probability (default 75\%). For the CDR-H3 this
+score is calculated as a function of the loop length. The confidence
+scorer is described as robust, but less accurate in the case of CDR
+loops due to the lack of data.\textsuperscript{17}
+
+Modelling the H3 loop is a hurdle for in silico development of
+therapeutic antibodies. Currently, there is no reliable way to determine
+how accurate a generated structural model is within the H3 region.
+Therefore, the aim of this project will be to produce a user-friendly
+predictor of H3 model quality. The predictor will give the user an
+RMSD-range in Ångstöms, in which the generated model lies with a high
+probability. Making such a confidence score available via the web
+interface of the in-house modelling software abYmod is a future goal.
+Such a score is not provided by most modelling programs and would thus
+be a novel addition. This information can guide the user in the antibody
+engineering process. The user has the choice to determine whether the
+model is to be used in the intended way, or whether the model should be
+re-worked.
+
+\textbf{RESULTS}
+
+predictive power regarding the CDR-H3 loop, the software was tested on a
+test-set of antibody structures used in the 2014 and 2011 Antibody
+Modelling Assessments \textsuperscript{13,23}. As the results depicted
+in \emph{fig}.2 show, abYmod achieves results similar to, or better than
+other modelling programs. However, the outliers with very high RMSD
+values increase abYmod's RMSD average. The predictor in this work would
+aim to identify such outlier models.
+
+The predictive power of any machine learning model is largely dependent
+on the quality and size of the dataset it was trained on. As this is a
+non-linear, complex, multi-class classification problem, a substantial
+amount of data was required. Thus, an extensive, verified dataset of
+antibody structures called abYbank/AbDb\textsuperscript{24}, established
+by Prof. Andrew Martin, was utilised (1924 non-redundant structures).
+The root-mean-square deviation (RMSD) value, a measure of distance
+between backbone C-α atoms of superimposed crystal structures and
+modelled structures, is calculated (see methods). This metric for model
+quality was used to classify models.
+
+\includegraphics[width=3.60764in,height=3.48125in]{media/image14.png}The
+full pipeline for creating the final machine learning model that will
+predict model quality by giving its RMSD range is summarized in
+\emph{fig.3}. The first step of this process is feature-set calculation
+using the antibody sequence. The feature set includes many different
+attributes linked to sequence, physical characteristics, interactions,
+etc. within as well as outside of the loop. There is a plethora of
+information to train our classifier on, including packing quality,
+protrusion, hydrophobicity, pseudo-energy (see
+
+protrusion, hydrophobicity, pseudo-energy (see methods for details). The
+sequence logo (\emph{fig.4}) visualizes amino acid occurrence within the
+loop sequence, elements of which can be extracted as features
+\textsuperscript{26,27}.
+
+After creating the feature dataset, it is pre-processed (cleaning,
+scaling, encoding, see methods for details). Structures with a
+resolution below 4Å were removed given their low quality. Identical
+whole antibody structures were removed from the dataset, while instances
+of different antibodies that matched in loop sequence were not removed.
+Fig.5 illustrates that models of some of these structures with the same
+loop sequence differ significantly. The few large RMSD ranges may stem
+from low resolution, e.g. the highest datapoint contains a structure
+with a resolution of 3.00 Å. Residue differences near the loop may also
+explain the conformational difference. Some of these structures are
+complexed while others are not, which may also affect the loop
+structure.
+
+The dataset was also screened for any models which
+
+abYmod created using a template sequence from LoopDB, a database of
+CDR-H3 like loops from all proteins. This was not the case for any of
+our structures.
+
+The target data (i.e. RMSD values) are then transformed from numerical
+values to nominal values so that they can be used for classification. In
+order to define these nominal categories, the total RMSD range must be
+divided into categories. This is done either by creating uniform classes
+i.e. 1-2Å, 2-3Å (the optimal size of which must be determined), etc. or
+by creating balanced classes. When creating balanced classes, the upper
+and lower thresholds of a category are chosen in such a way that each
+class contains an equal number of instances. This approach is chosen to
+counteract the skewness of the RMSD distribution (\emph{fig}.2).
+However, this was found to negatively affect the final model's
+predictive power. Therefore, uniform classes were used.
+
+They are also transformed into a set of binary values according to a
+list of RMSD thresholds. This is done so that binary models can be
+trained, which will predict the probability e.g. that the model's RMSD
+is above 2Å, 2.2Å, 2.4Å, and so on. The number of binary classifiers
+incorporated into the first layer
+
+have a great effect on the final model, the general
+
+trend being that the more binary classifiers are used, the better the
+nominal prediction.
+
+\textbf{Feature Encoding and Selection}
+
+As some features are in the form of amino acid codes, these must be
+encoded before they can be passed to a machine learning model. The
+encoding strategy often determines how efficiently the model learns and
+how much information can be extracted. Different strategies were
+employed to represent amino acids as a numerical value: one-hot
+encoding, BLOSUM62 encoding, NLF encoding and a 4-feature physiochemical
+encoding method (see methods section). The effect of encoding strategy
+on the ML model's performance was evaluated. It was
+
+\includegraphics[width=7.25in,height=3.81111in]{media/image16.png}found
+that one-hot encoding was the least effective,
+
+followed by BLOSUM62 and NLF encoding. The physiochemical encoding
+strategy was implemented for all models, being the most effective.
+However, PCA-3 BLOSUM62, a dimensionality-reduced BLOSUM62 encoding
+method achieved comparable results.
+
+Feature selection was conducted to improve the ML model's learning
+capacity. A high-dimensional feature dataset bears the risk of
+introducing excessive noise, facilitating model overfitting and can be
+responsible for an overall decrease in model performance and stability.
+Each additionally inputted feature forces the model to handle a more
+complex task, which consumes excess computational power and time and
+leads to overfitting of the model.
+
+Our model is trained on different feature sets selected using manual
+selection as well as algorithmic selection strategies (see appendix), in
+order to determine the most effective feature selection method. None of
+the feature selection methods was a best fit for all models. However,
+the
+
+After the data is processed, it can be fed into different machine
+learning models. Different model types are investigated, as the most
+suited model-type has to be heuristically determined. We decided on the
+following list, which includes some of the most commonly used
+algorithms: logistic regression, linear discriminant analysis, K-nearest
+neighbours classifier, decision tree classifier, Gaussian NB, random
+forest classifier, support vector machine, probability-based voting
+(also known as soft voting) and extreme gradient boosting
+(XGBoost)\textsuperscript{28}.
+
+The best model, and its best hyperparameters, are then determined for
+each binary RMSD target. The set of binary models outputs a number of
+predictions that give the likelihood of the model having an RMSD above
+the threshold value of the respective model. These predictions are then
+added to the feature set, which a top-layer classifier is then trained
+on. Thus, a quasi-voting-system is incorporated into the final
+classifier, in which a set of weaker classifiers vote on the model
+quality.
+
+\textbf{Hyperparameter Optimization}
+
+In the process of hyperparameter optimization, the configuration of
+model parameters which results in best performance is selected. This is
+usually a computationally expensive and manual procedure.
+
+In an effort to automate this process, a population is defined for each
+model type, so hyperparameter optimization can be conducted
+automatically for each model and seamlessly integrated into the full
+model creation process. Two different methods for hyperparameter
+optimization were tested. The first is a hybrid approach of randomized
+search and grid search, the second uses a genetic algorithm for
+optimization. The genetic algorithm was found to achieve slightly better
+results and was selected for all models.
+
+\textbf{Model Performance}
+
+The overall best final model is composed of several different binary
+classifiers, with an extreme gradient boosting (XGBoost) top-layer
+nominal classifier. Features were selected using random forest feature
+selection. A final MCC value of 0.64 could be achieved.
+
+The classifier predicts whether a model has an RMSD of 0-2Å (`class 0'),
+2-4Å (`class 1') or above 4Å (`class 2'). These cut-off values were
+selected based on the observation that abYmod generally produces a model
+with RMSD below 4Å. Incorrectly modelled structures (such as the ones
+seen in Fig 2.) may be identified by screening for `class 2'. If a very
+high-quality model is needed one should find this in `class 0'.
+
+\hypertarget{section}{%
+\section{}\label{section}}
+
+\hypertarget{discussion}{%
+\section{DISCUSSION}\label{discussion}}
+
+\hypertarget{section-1}{%
+\section{}\label{section-1}}
+
+The results suggest that our presented classifier can differentiate
+between well-modelled and less well-modelled CDR-H3 loop structures. An
+MCC value of 0.63 was achieved, which underlines this ability for
+accurate discrimination. Different methods for data pre-processing,
+feature encoding, feature selection and hyperparameter optimization were
+tested.
+
+Feature encoding methods that were very high-dimensional
+(one-hot-encoding, BLOSUM62, NLF) were found to be unfavorable.
+Dimensionality reduction methods (Principal Component Analysis (PCA),
+Independent Component Analysis (ICA), projection-based methods e.g.
+t-SNE) were used on BLOSUM62 encoded matrices, which lead to significant
+improvement. However, a physiochemical encoding strategy was most
+effective.
+
+The selection of features incorporated in the training set seemed to be
+most important for effective learning. A multitude of methods were
+tested. No one-fit-for-all method for the different models could be
+found. However, for our top-layer classifier in our final model
+recursive feature elimination worked best.
+
+A set of commonly used machine learning algorithms were tested, and the
+best ML models were incorporated into the final ensemble model. A
+stacked model approach (consisting of 23 binary classifiers and a single
+top-layer nominal classifier) was shown to outperform single ML models.
+
+An MCC value of 0.63 was achieved for a classifier predicting whether an
+input-model has an RMSD value below 2Å, 2Å-4Å or above 4Å.
+
+Further research may enable additional optimization of the classifier
+making it more reliable.
+
+Given that abYbank/AbDb is soon to be expanded by an additional ca. 2000
+structures, classifier performance may be improved by a larger dataset.
+
+At a later stage the model could provide an abYmod user with information
+on the generated model's quality in the CDR-H3 region via a
+web-interface.
+
+It is conceivable that the described predictor may also be incorporated
+in the antibody modelling process as a low-quality filter in the future,
+flagging certain structures for re-modelling.
+
+In a future research project residue patterns in correlation with RMSD
+may be analyzed. Possibly, one might identify certain sequence patterns
+that make accurate modelling with abYmod more difficult. Furthermore,
+separate classifiers according to loop length can be built. Given that
+loop length is the most important determinant of model quality, this
+approach may yield some insight into the challenges of modelling shorter
+vs longer loops.
+
+One could also conduct an analysis of the predictor's behaviour when
+abYmod is forced to use LoopDB-based modelling. This might shed light on
+whether the ML model presented in this paper is biased towards abYmod's
+used source of template structures. It would also give an indication of
+how well the predictor would work in combination with other modelling
+software.
+
+\hypertarget{experimental-procedures}{%
+\section{EXPERIMENTAL PROCEDURES}\label{experimental-procedures}}
+
+\hypertarget{section-2}{%
+\section{}\label{section-2}}
+
+\textbf{Computing}
+
+All machine learning and, feature selection and hyperparameter
+optimization algorithms were implemented in Python. The Scikit-learn
+library was used for training models, the
+Yellowbrick\textsuperscript{29} library was utilized for visualization.
+All code is available at
+\url{https://github.com/LilianDenzler/qualiloop} .
+
+The code was run under CentOS 7 on an 8-core virtual machine on an Intel
+Xeon 4208 CPU with 16Gig RAM.
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+Feature Name & Description & Method of Calculation\tabularnewline
+\midrule
+\endhead
+Sequence & Amino acid sequence of the CDR-H3 loop. & Sequence is given
+in one-letter amino acid codes.\tabularnewline
+Length & Number of residues in the CDRH3-loop, which is located at
+residues H95-H102. & The number of residues are counted.\tabularnewline
+Sequence identity & Sequence identity of selected template (SeqA) with
+input loop sequence (SeqB)) is determined after sequence alignment.
+Calculated by abYmod during modelling. &
+\(\text{Identity}\left( \text{Seq}A,SeqB \right) = 100\%*\frac{\text{identical\ residues}}{length(alignment)}\)\tabularnewline
+\begin{minipage}[t]{0.30\columnwidth}\raggedright
+Sequence similarity\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Sequence similarity of selected template (SeqA) with input loop sequence
+(SeqB) is determined after sequence alignment. Calculated by abYmod
+during modelling.
+
+Similar residues are residues that have undergone conservative
+substitution.\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+\[\text{Simialrity}\left( \text{Seq}A,SeqB \right) = 100\%*\frac{identical\ residues + similar\ residues}{length(alignment)}\]\strut
+\end{minipage}\tabularnewline
+Loop protrusion & Distance of loop residue further away from the loop
+base. & Geometrical calculations, see \emph{fig. 8}\tabularnewline
+Protruding residue & The amino acid code of the most protruding loop
+residue & Using the previously determined point furthest away from the
+loop base, the residue at this coordinate is determined and given as a
+one-letter amino acid code.\tabularnewline
+Charge & Total charge of the loop & Sum of charges of all residues in
+loop\tabularnewline
+Charge difference & Difference in total charge compared to template
+sequence & Difference between the two summed charges\tabularnewline
+Hydrophobicity & Mean of hydrophobicity values of loop & Based Eisenberg
+consensus values\textsuperscript{30}\tabularnewline
+Hydrophobicity difference & Sum of absolute differences between loop
+sequence and template loop & Based Eisenberg consensus
+values\textsuperscript{30}\tabularnewline
+Accessibility & Total and average accessibility for the loop. &
+Lee-Richards method \textsuperscript{31} implemented using the pdbsolv
+method from the BiopTools library \textsuperscript{32}\tabularnewline
+Side-chain Accessibility & Total and average side-chain accessibility
+for the loop. & Lee-Richards method \textsuperscript{31} implemented
+using the pdbsolv method from the BiopTools library
+\textsuperscript{32}\tabularnewline
+Relative Accessibility & Total and average relative accessibility for
+the loop. & Lee-Richards method \textsuperscript{31} implemented using
+the pdbsolv method from the BiopTools library
+\textsuperscript{32}\tabularnewline
+Relative side-chain accessibility & Total and average relative
+side-chain accessibility for the loop. & Lee-Richards method
+\textsuperscript{31} implemented using the pdbsolv method from the
+BiopTools library \textsuperscript{32}\tabularnewline
+\begin{minipage}[t]{0.30\columnwidth}\raggedright
+Happiness\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Happiness score, taking accessibility and hydrophobicity into account.
+If a residue is `happy' it will not be a buried hydrophilic or a surface
+hydrophobic residue.\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Hydrophobicity values (see above) are normalized to a range of -1 to +1.
+Mean accessibility values are calculated as above.
+
+If Hydrophobicity of loop is \textless0:
+
+\[Happiness = 1 + (Hydrophobicity*(1 - Accessibility)\]
+
+Otherwise:
+
+\[Happiness = 1 - (Hydrophobicity*Accessibility)\]\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\textbf{Feature Calculations}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+\begin{minipage}[b]{0.30\columnwidth}\raggedright
+Nr. Of contacts\strut
+\end{minipage} & \begin{minipage}[b]{0.30\columnwidth}\raggedright
+Nr of contacts made by the residue of the loop within a range of 3.5Å.
+Includes mainchain as well as sidechain atoms. Contacts made with
+residue within and outside of the loop are counted separately and as
+total.
+
+The ratio of inside vs outside is also calculated.\strut
+\end{minipage} & \begin{minipage}[b]{0.30\columnwidth}\raggedright
+Modified version of the rangecontacts method in the BiopTools library
+\textsuperscript{32}.\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+Energy & Potential energy of the model. & Calculated by
+Gromacs\textsuperscript{33} during energy minimization step in abYmod
+modelling.\tabularnewline
+\begin{minipage}[t]{0.30\columnwidth}\raggedright
+Lowest BLOSUM 62 Scoring Residue Pair\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Each possible residue pair in the CDR-H3 loop is scored by their BLOSUM
+62 score. The lowest scoring pair's BLOSUM62 value will be combined with
+their residue separation to form the metric.\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+With separation being the number of residues between the worst residue
+pair, and the worst score being the lowest BLOSUM62 score achieved by a
+residue pair, the metric is calculated as follows:
+
+\[WorstBLOSUM = - \log_{2}\left( \text{separation} \right)*worst\ score\ \]\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\includegraphics[width=6.47569in,height=2.2744in]{media/image18.png}
+
+\textbf{Data Pre-Processing and Preparation}
+
+{\emph{Handling Null Values and Duplicates}\textbf{: }}The dataset
+containing target RMSD values, and the calculated features was screened
+for null values. If a feature column contained more than 5\% null
+values, it was dropped (none removed). Rows that contained any null
+values were removed from the dataset (11 rows in total).
+
+{Duplicate Screening}: Using AbDb's redundancy information it was
+ensured that no antibodies were present in the dataset more than once.
+The dataset is additionally screened for duplicate instances.
+
+{Scaling:} Normalization and Standardization are tested as scaling
+methods. Both approaches are greatly influenced by outliers, and such
+datapoints are ideally removed for optimal scaling. Here we define
+outliers as datapoints that lie over 1.5 times the interquartile range
+(IQR) below the first quartile or above the third
+
+quartile. The IQR is defined as the range between quartile 1, i.e. the
+median of the lower half of the data, and quartile 3, i.e. the median of
+the upper half of the
+
+data. However, across all features there are a total of 632 outlier
+values and removing such a large number of datapoints is not a viable
+option. A robust scaler was also used, which uses statistics that are
+robust to outliers. The median is set to zero and numerical features are
+scaled to the interquartile range.
+
+{BLOSUM 62 encoding:} The BLOSUM62 matrix reflects the frequencies of
+amino acid substitutions within a locally aligned, conserved regions of
+proteins with at least 62\% similarity. Each amino acid is represented
+by a row (or column) of the BLOSUM62 matrix. Dimensionality reduction
+techniques are employed: Principal Component Analysis (PCA), Independent
+Component Analysis (ICA), projection-based methods (t-SNE, Isomap).
+Three components were used as features.
+
+{Physiochemical Feature Encoding\emph{:}} In a paper by L. Nanni and
+A.Lumini a new encoding technique is
+
+presented which was developed for machine learning classifiers. Many
+physiochemical properties are calculated and transformed using a
+non-linear Fisher transform for dimensionality reduction. A vector of
+length 19 is produced for each amino acid\textsuperscript{34}.
+
+In a paper on designing a neural network for predicting the packing
+angle of the light and heavy variable chain of an antibodies, A.C.R.
+Martin and K.R. Abhinandan introduce an encoding method that produces a
+four-dimensional physiochemical feature vector\textsuperscript{25}. The
+amino acid properties used are 1) the total number of side-chain atoms,
+2) the number of side-chain atoms in the shortest path from Cα to the
+most distal atom, 3) the Eisenberg consensus
+hydrophobicity\textsuperscript{30}, 4) the charge.
+
+\textbf{Dataset-splitting}: The final model was evaluated using a test
+set, separated from the training set at the start in a 30/70 split
+(lock-box principle) \textsuperscript{35}. The performance of all
+individual sub-models of the first layer are determined using stratified
+K-folds cross-validation (k=10) as the dataset is imbalanced, being
+skewed towards lower RMSD values. The method is differentiable from
+K-folds cross validation as it uses stratified sampling instead of
+random sampling. This ensures each class is represented, as the
+percentage of samples for each class are preserved.
+
+A validation set, usually used for testing during the optimization stage
+will be omitted in favour of stratified K-folds cross-validation (k=10)
+\textsuperscript{36,37}.
+
+\textbf{Model Assessment:} Model assessment must be considered at two
+levels as performance metrics of binary and multi-class classifiers are
+calculated differently and must thus be considered separately. The
+Mathews Correlation Coefficient (MCC) \textsuperscript{38} is deemed the
+most informative, taking the ratios of the four confusion matrix
+categories into account \textsuperscript{39}and is thus more reliable
+than the F1 score and accuracy . It is also consistent for both binary
+and multi-class problems and therefore well suited for our purpose.
+
+\hypertarget{section-3}{%
+\section{}\label{section-3}}
+
+\hypertarget{section-4}{%
+\section{\texorpdfstring{\protect\includegraphics[width=3.66667in,height=3.35694in]{media/image19.png}}{}}\label{section-4}}
+
+\hypertarget{section-5}{%
+\section{}\label{section-5}}
+
+\hypertarget{section-6}{%
+\section{}\label{section-6}}
+
+\hypertarget{section-7}{%
+\section{}\label{section-7}}
+
+\hypertarget{section-8}{%
+\section{}\label{section-8}}
+
+\hypertarget{section-9}{%
+\section{}\label{section-9}}
+
+\hypertarget{section-10}{%
+\section{}\label{section-10}}
+
+\hypertarget{section-11}{%
+\section{}\label{section-11}}
+
+\hypertarget{section-12}{%
+\section{}\label{section-12}}
+
+\hypertarget{section-13}{%
+\section{}\label{section-13}}
+
+\hypertarget{section-14}{%
+\section{}\label{section-14}}
+
+\hypertarget{section-15}{%
+\section{}\label{section-15}}
+
+\hypertarget{section-16}{%
+\section{}\label{section-16}}
+
+\hypertarget{section-17}{%
+\section{}\label{section-17}}
+
+\hypertarget{section-18}{%
+\section{}\label{section-18}}
+
+\hypertarget{section-19}{%
+\section{}\label{section-19}}
+
+\hypertarget{section-20}{%
+\section{}\label{section-20}}
+
+\hypertarget{section-21}{%
+\section{}\label{section-21}}
+
+\hypertarget{section-22}{%
+\section{}\label{section-22}}
+
+\hypertarget{section-23}{%
+\section{}\label{section-23}}
+
+\hypertarget{section-24}{%
+\section{}\label{section-24}}
+
+\hypertarget{section-25}{%
+\section{}\label{section-25}}
+
+\hypertarget{references}{%
+\section{REFERENCES}\label{references}}
+
+\hypertarget{section-26}{%
+\section{}\label{section-26}}
+
+\hypertarget{charles-a-janeway-j.-travers-p.-walport-m.-shlomchik-m.-j.-the-interaction-of-the-antibody-molecule-with-specific-antigen.-immunobiology-the-immune-system-in-health-and-disease.-garland-science-2001.2.-lu-r.-m.-et-al.-development-of-therapeutic-antibodies-for-the-treatment-of-diseases.-journal-of-biomedical-science-vol.-27-130-2020.3.-antibodies-market-size-share-trends-growth-forecast-2020-to-2025.-httpswww.marketdataforecast.commarket-reportsantibodies-market.4.-urquhart-l.-top-companies-and-drugs-by-sales-in-2020.-nat.-rev.-drug-discov.-2021-doi10.1038d41573-021-00050-6.5.-abhinandan-k.-r.-martin-a.-c.-r.-analyzing-the-degree-of-humanness-of-antibody-sequences.-j.-mol.-biol.-369-852862-2007.6.-north-b.-lehmann-a.-dunbrack-r.-l.-a-new-clustering-of-antibody-cdr-loop-conformations.-j.-mol.-biol.-406-228256-2011.7.-weitzner-b.-d.-dunbrack-r.-l.-gray-j.-j.-the-origin-of-cdr-h3-structural-diversity.-structure-23-302311-2015.8.-finn-j.-a.-et-al.-improving-loop-modeling-of-the-antibody-complementarity-determining-region-3-using-knowledge-based-restraints.-plos-one-11-e0154811-2016.9.-regep-c.-georges-g.-shi-j.-popovic-b.-deane-c.-m.-the-h3-loop-of-antibodies-shows-unique-structural-characteristics.-proteins-struct.-funct.-bioinforma.-85-13111318-2017.10.-maccallum-r.-m.-martin-a.-c.-r.-thornton-j.-m.-antibody-antigen-interactions-contact-analysis-and-binding-site-topography.-j.-mol.-biol.-262-732745-1996.11.-xu-j.-l.-davis-m.-m.-diversity-in-the-cdr3-region-of-vh-is-sufficient-for-most-antibody-specificities.-immunity-13-3745-2000.12.-kabat-e.-wu-t.-te-perry-h.-foeller-c.-gottesman-k.-sequences-of-proteins-of-immunological-interest.-1992.13.-almagro-j.-c.-et-al.-second-antibody-modeling-assessment-ama-ii.-proteins-structure-function-and-bioinformatics-vol.-82-15531562-2014.14.-almagro-j.-c.-et-al.-antibody-modeling-assessment.-proteins-struct.-funct.-bioinforma.-79-30503066-2011.15.-sircar-a.-kim-e.-t.-gray-j.-j.-rosettaantibody-antibody-variable-region-homology-modeling-server.-nucleic-acids-res.-37-w474w479-2009.16.-sivasubramanian-a.-sircar-a.-chaudhury-s.-gray-j.-j.-toward-high-resolution-homology-modeling-of-antibody-f-v-regions-and-application-to-antibody-antigen-docking.-proteins-struct.-funct.-bioinforma.-74-497514-2009.17.-leem-j.-dunbar-j.-georges-g.-shi-j.-deane-c.-m.-abodybuilder-automated-antibody-structure-prediction-with-datadriven-accuracy-estimation.-mabs-8-12591268-2016.18.-lepore-r.-olimpieri-p.-p.-messih-m.-a.-tramontano-a.-pigspro-prediction-of-immunoglobulin-structures-v2.-nucleic-acids-res.-45-w17w23-2017.19.-schoeder-c.-t.-et-al.-modeling-immunity-with-rosetta-methods-for-antibody-and-antigen-design.-60.20.-weitzner-b.-d.-gray-j.-j.-accurate-structure-prediction-of-cdr-h3-loops-enabled-by-a-novel-structure-based-c-terminal-constraint.-j.-immunol.-198-505515-2017.21.-choi-y.-deane-c.-m.-fread-revisited-accurate-loop-structure-prediction-using-a-database-search-algorithm.-proteins-struct.-funct.-bioinforma.-78-14311440-2010.22.-martin-a.-c.-r.-thornton-j.-m.-structural-families-in-loops-of-homologous-proteins-automatic-classification-modelling-and-application-to-antibodies.-j.-mol.-biol.-263-800815-1996.23.-almagro-j.-c.-et-al.-antibody-modeling-assessment.-proteins-struct.-funct.-bioinforma.-79-30503066-2011.24.-ferdous-s.-martin-a.-c.-r.-abdb-antibody-structure-databasea-database-of-pdb-derived-antibody-structures.-database-2018-2018.25.-abhinandan-k.-r.-martin-a.-c.-r.-analysis-and-prediction-of-vhvl-packing-in-antibodies.-protein-eng.-des.-sel.-23-689697-2010.26.-thomsen-m.-c.-f.-nielsen-m.-seq2logo-a-method-for-construction-and-visualization-of-amino-acid-binding-motifs-and-sequence-profiles-including-sequence-weighting-pseudo-counts-and-two-sided-representation-of-amino-acid-enrichment-and-depletion.-nucleic-acids-res.-40-2012.27.-shaner-m.-c.-blairs-i.-m.-schneider-t.-d.-sequence-logos-a-powerful-yet-simple-tool.28.-chen-t.-guestrin-c.-xgboost-a-scalable-tree-boosting-system.-in-proceedings-of-the-acm-sigkdd-international-conference-on-knowledge-discovery-and-data-mining-vols-13-17-august-2016-785794-association-for-computing-machinery-2016.29.-bengfort-b.-et-al.-yellowbrick-v1.3.-2021-doi10.5281zenodo.4525724.30.-eisenberg-d.-weiss-r.-m.-terwilliger-t.-c.-wilcox-w.-hydrophobic-moments-and-protein-structure.-in-faraday-symposia-of-the-chemical-society-vol.-17-109120-the-royal-society-of-chemistry-1982.31.-lee-b.-richards-f.-m.-the-interpretation-of-protein-structures-estimation-of-static-accessibility.-j.-mol.-biol.-55-379-in4-1971.32.-porter-c.-t.-martin-a.-c.-r.-bioplib-and-bioptools---a-c-programming-library-and-toolset-for-manipulating-protein-structure.-bioinformatics-31-40174019-2015.33.-van-der-spoel-d.-et-al.-gromacs-fast-flexible-and-free.-j.-comput.-chem.-26-17011718-2005.34.-nanni-l.-lumini-a.-a-new-encoding-technique-for-peptide-classification.-expert-syst.-appl.-38-31853191-2011.35.-wong-t.-t.-performance-evaluation-of-classification-algorithms-by-k-fold-and-leave-one-out-cross-validation.-pattern-recognit.-48-28392846-2015.36.-krstajic-d.-buturovic-l.-j.-leahy-d.-e.-thomas-s.-cross-validation-pitfalls-when-selecting-and-assessing-regression-and-classification-models.-j.-cheminform.-6-10-2014.37.-kohavi-r.-a-study-of-cross-validation-and-bootstrap-for-accuracy-estimation-and-model-selection.-httprobotics.stanford.eduronnyk-1995.38.-structure-b.-m.-b.-et-b.-a.-bba-p.-1975-undefined.-comparison-of-the-predicted-and-observed-secondary-structure-of-t4-phage-lysozyme.-elsevier.39.-chicco-d.-ten-quick-tips-for-machine-learning-in-computational-biology.-biodata-mining-vol.-10-35-2017.40.-morris-j.-the-precise-effect-of-multicollinearity-on-classification-prediction-ridge-regression-view-project-curriculum-based-vam-view-project.-httpswww.researchgate.netpublication336561703-2014.41.-handling-multi-collinearity-in-ml-models-by-vishwa-pardeshi-towards-data-science.-httpstowardsdatascience.comhandling-multi-collinearity-6579eb99fd81.42.-jin-lee-c.-park-c.-s.-seok-kim-j.-baek-j.-g.-a-study-on-improving-classification-performance-for-manufacturing-process-data-with-multicollinearity-and-imbalanced-distribution.-41-2533-2015.43.-box-p.-o.-van-der-maaten-l.-postma-e.-van-den-herik-j.-tilburg-centre-for-creative-computing-dimensionality-reduction-a-comparative-review-dimensionality-reduction-a-comparative-review.-httpwww.uvt.nlticc-2009.44.-vlachos-m.-et-al.-non-linear-dimensionality-reduction-techniques-for-classification-and-visualization.-2002.45.-sorzano-c.-o.-s.-vargas-j.-pascual-montano-a.-a-survey-of-dimensionality-reduction-techniques.46.-rifai-s.-vincent-p.-muller-x.-glorot-x.-bengio-y.-contractive-auto-encoders-explicit-invariance-during-feature-extraction.-2011.47.-chicco-d.-jurman-g.-the-advantages-of-the-matthews-correlation-coefficient-mcc-over-f1-score-and-accuracy-in-binary-classification-evaluation.-bmc-genomics-21-6-2020.48.-brown-j.-b.-classifiers-and-their-metrics-quantified.-mol.-inform.-37-1700127-2018.49.-delgado-r.-tibau-x.-a.-why-cohens-kappa-should-be-avoided-as-performance-measure-in-classification.-plos-one-14-e0222916-2019.50.-gorodkin-j.-comparing-two-k-category-assignments-by-a-k-category-correlation-coefficient.-comput.-biol.-chem.-28-367374-2004.51.-wong-w.-k.-leem-j.-deane-c.-m.-comparative-analysis-of-the-cdr-loops-of-antigen-receptors-protein-structure-prediction-view-project-comparative-analysis-of-the-cdr-loops-of-antigen.-doi10.1101709840.}{%
+\section{\texorpdfstring{1. Charles A Janeway, J., Travers, P., Walport,
+M. \& Shlomchik, M. J. \emph{The interaction of the antibody molecule
+with specific antigen}. \emph{Immunobiology: The Immune System in Health
+and Disease.} (Garland Science, 2001).2. Lu, R. M. \emph{et al.}
+Development of therapeutic antibodies for the treatment of diseases.
+\emph{Journal of Biomedical Science} vol. 27 1--30 (2020).3. Antibodies
+Market Size, Share Trends, Growth, Forecast \textbar{} 2020 to 2025.
+https://www.marketdataforecast.com/market-reports/antibodies-market.4.
+Urquhart, L. Top companies and drugs by sales in 2020. \emph{Nat. Rev.
+Drug Discov.} (2021) doi:10.1038/d41573-021-00050-6.5. Abhinandan, K. R.
+\& Martin, A. C. R. Analyzing the `Degree of Humanness' of Antibody
+Sequences. \emph{J. Mol. Biol.} \textbf{369}, 852--862 (2007).6. North,
+B., Lehmann, A. \& Dunbrack, R. L. A new clustering of antibody CDR loop
+conformations. \emph{J. Mol. Biol.} \textbf{406}, 228--256 (2011).7.
+Weitzner, B. D., Dunbrack, R. L. \& Gray, J. J. The origin of CDR H3
+structural diversity. \emph{Structure} \textbf{23}, 302--311 (2015).8.
+Finn, J. A. \emph{et al.} Improving Loop Modeling of the Antibody
+Complementarity-Determining Region 3 Using Knowledge-Based Restraints.
+\emph{PLoS One} \textbf{11}, e0154811 (2016).9. Regep, C., Georges, G.,
+Shi, J., Popovic, B. \& Deane, C. M. The H3 loop of antibodies shows
+unique structural characteristics. \emph{Proteins Struct. Funct.
+Bioinforma.} \textbf{85}, 1311--1318 (2017).10. MacCallum, R. M.,
+Martin, A. C. R. \& Thornton, J. M. Antibody-antigen interactions:
+Contact analysis and binding site topography. \emph{J. Mol. Biol.}
+\textbf{262}, 732--745 (1996).11. Xu, J. L. \& Davis, M. M. Diversity in
+the CDR3 region of V(H) is sufficient for most antibody specificities.
+\emph{Immunity} \textbf{13}, 37--45 (2000).12. Kabat, E., Wu, T. Te,
+Perry, H., Foeller, C. \& Gottesman, K. Sequences of proteins of
+immunological interest. (1992).13. Almagro, J. C. \emph{et al.} Second
+Antibody Modeling Assessment (AMA-II). \emph{Proteins: Structure,
+Function and Bioinformatics} vol. 82 1553--1562 (2014).14. Almagro, J.
+C. \emph{et al.} Antibody modeling assessment. \emph{Proteins Struct.
+Funct. Bioinforma.} \textbf{79}, 3050--3066 (2011).15. Sircar, A., Kim,
+E. T. \& Gray, J. J. RosettaAntibody: Antibody variable region homology
+modeling server. \emph{Nucleic Acids Res.} \textbf{37}, W474--W479
+(2009).16. Sivasubramanian, A., Sircar, A., Chaudhury, S. \& Gray, J. J.
+Toward high-resolution homology modeling of antibody F \textsubscript{v}
+regions and application to antibody-antigen docking. \emph{Proteins
+Struct. Funct. Bioinforma.} \textbf{74}, 497--514 (2009).17. Leem, J.,
+Dunbar, J., Georges, G., Shi, J. \& Deane, C. M. ABodyBuilder: Automated
+antibody structure prediction with data--driven accuracy estimation.
+\emph{MAbs} \textbf{8}, 1259--1268 (2016).18. Lepore, R., Olimpieri, P.
+P., Messih, M. A. \& Tramontano, A. PIGSPro: Prediction of
+immunoGlobulin structures v2. \emph{Nucleic Acids Res.} \textbf{45},
+W17--W23 (2017).19. Schoeder, C. T. \emph{et al.} Modeling Immunity with
+Rosetta: Methods for Antibody and Antigen Design. \textbf{60},.20.
+Weitzner, B. D. \& Gray, J. J. Accurate Structure Prediction of CDR H3
+Loops Enabled by a Novel Structure-Based C-Terminal Constraint. \emph{J.
+Immunol.} \textbf{198}, 505--515 (2017).21. Choi, Y. \& Deane, C. M.
+FREAD revisited: Accurate loop structure prediction using a database
+search algorithm. \emph{Proteins Struct. Funct. Bioinforma.}
+\textbf{78}, 1431--1440 (2010).22. Martin, A. C. R. \& Thornton, J. M.
+Structural families in loops of homologous proteins: Automatic
+classification, modelling and application to antibodies. \emph{J. Mol.
+Biol.} \textbf{263}, 800--815 (1996).23. Almagro, J. C. \emph{et al.}
+Antibody modeling assessment. \emph{Proteins Struct. Funct. Bioinforma.}
+\textbf{79}, 3050--3066 (2011).24. Ferdous, S. \& Martin, A. C. R. AbDb:
+antibody structure database---a database of PDB-derived antibody
+structures. \emph{Database} \textbf{2018}, (2018).25. Abhinandan, K. R.
+\& Martin, A. C. R. Analysis and prediction of VH/VL packing in
+antibodies. \emph{Protein Eng. Des. Sel.} \textbf{23}, 689--697
+(2010).26. Thomsen, M. C. F. \& Nielsen, M. Seq2Logo: A method for
+construction and visualization of amino acid binding motifs and sequence
+profiles including sequence weighting, pseudo counts and two-sided
+representation of amino acid enrichment and depletion. \emph{Nucleic
+Acids Res.} \textbf{40}, (2012).27. Shaner, M. C., Blair's, I. M. \&
+Schneider, T. D. \emph{Sequence Logos: A Powerful, Yet Simple, Tool}.28.
+Chen, T. \& Guestrin, C. XGBoost: A scalable tree boosting system. in
+\emph{Proceedings of the ACM SIGKDD International Conference on
+Knowledge Discovery and Data Mining} vols 13-17-August-2016 785--794
+(Association for Computing Machinery, 2016).29. Bengfort, B. \emph{et
+al.} Yellowbrick v1.3. (2021) doi:10.5281/ZENODO.4525724.30. Eisenberg,
+D., Weiss, R. M., Terwilliger, T. C. \& Wilcox, W. Hydrophobic moments
+and protein structure. in \emph{Faraday Symposia of the Chemical
+Society} vol. 17 109--120 (The Royal Society of Chemistry, 1982).31.
+Lee, B. \& Richards, F. M. The interpretation of protein structures:
+Estimation of static accessibility. \emph{J. Mol. Biol.} \textbf{55},
+379-IN4 (1971).32. Porter, C. T. \& Martin, A. C. R. BiopLib and
+BiopTools - A C programming library and toolset for manipulating protein
+structure. \emph{Bioinformatics} \textbf{31}, 4017--4019 (2015).33. Van
+Der Spoel, D. \emph{et al.} GROMACS: Fast, flexible, and free. \emph{J.
+Comput. Chem.} \textbf{26}, 1701--1718 (2005).34. Nanni, L. \& Lumini,
+A. A new encoding technique for peptide classification. \emph{Expert
+Syst. Appl.} \textbf{38}, 3185--3191 (2011).35. Wong, T. T. Performance
+evaluation of classification algorithms by k-fold and leave-one-out
+cross validation. \emph{Pattern Recognit.} \textbf{48}, 2839--2846
+(2015).36. Krstajic, D., Buturovic, L. J., Leahy, D. E. \& Thomas, S.
+Cross-validation pitfalls when selecting and assessing regression and
+classification models. \emph{J. Cheminform.} \textbf{6}, 10 (2014).37.
+Kohavi, R. \emph{A Study of Cross-Validation and Bootstrap for Accuracy
+Estimation and Model Selection}.
+http://robotics.stanford.edu/\textasciitilde ronnyk (1995).38.
+Structure, B. M.-B. et B. A. (BBA)-P. \& 1975, undefined. Comparison of
+the predicted and observed secondary structure of T4 phage lysozyme.
+\emph{Elsevier}.39. Chicco, D. Ten quick tips for machine learning in
+computational biology. \emph{BioData Mining} vol. 10 35 (2017).40.
+Morris, J. \emph{The Precise Effect of Multicollinearity on
+Classification Prediction Ridge Regression View project Curriculum-Based
+VAM View project}. https://www.researchgate.net/publication/336561703
+(2014).41. Handling Multi-Collinearity in ML Models \textbar{} by Vishwa
+Pardeshi \textbar{} Towards Data Science.
+https://towardsdatascience.com/handling-multi-collinearity-6579eb99fd81.42.
+Jin Lee, C., Park, C.-S., Seok Kim, J. \& Baek, J.-G. A Study on
+Improving Classification Performance for Manufacturing Process Data with
+Multicollinearity and Imbalanced Distribution. \textbf{41}, 25--33
+(2015).43. Box, P. O., Van Der Maaten, L., Postma, E. \& Van Den Herik,
+J. \emph{Tilburg centre for Creative Computing Dimensionality Reduction:
+A Comparative Review Dimensionality Reduction: A Comparative Review}.
+http://www.uvt.nl/ticc (2009).44. Vlachos, M. \emph{et al.}
+\emph{Non-Linear Dimensionality Reduction Techniques for Classification
+and Visualization}. (2002).45. Sorzano, C. O. S., Vargas, J. \&
+Pascual-Montano, A. \emph{A survey of dimensionality reduction
+techniques}.46. Rifai, S., Vincent, P., Muller, X., Glorot, X. \&
+Bengio, Y. \emph{Contractive Auto-Encoders: Explicit Invariance During
+Feature Extraction}. (2011).47. Chicco, D. \& Jurman, G. The advantages
+of the Matthews correlation coefficient (MCC) over F1 score and accuracy
+in binary classification evaluation. \emph{BMC Genomics} \textbf{21}, 6
+(2020).48. Brown, J. B. Classifiers and their Metrics Quantified.
+\emph{Mol. Inform.} \textbf{37}, 1700127 (2018).49. Delgado, R. \&
+Tibau, X. A. Why Cohen's Kappa should be avoided as performance measure
+in classification. \emph{PLoS One} \textbf{14}, e0222916 (2019).50.
+Gorodkin, J. Comparing two K-category assignments by a K-category
+correlation coefficient. \emph{Comput. Biol. Chem.} \textbf{28},
+367--374 (2004).51. Wong, W. K., Leem, J. \& Deane, C. M. Comparative
+analysis of the CDR loops of antigen receptors Protein structure
+prediction View project Comparative analysis of the CDR loops of
+antigen.
+doi:10.1101/709840.}{1. Charles A Janeway, J., Travers, P., Walport, M. \& Shlomchik, M. J. The interaction of the antibody molecule with specific antigen. Immunobiology: The Immune System in Health and Disease. (Garland Science, 2001).2. Lu, R. M. et al. Development of therapeutic antibodies for the treatment of diseases. Journal of Biomedical Science vol. 27 1--30 (2020).3. Antibodies Market Size, Share Trends, Growth, Forecast \textbar{} 2020 to 2025. https://www.marketdataforecast.com/market-reports/antibodies-market.4. Urquhart, L. Top companies and drugs by sales in 2020. Nat. Rev. Drug Discov. (2021) doi:10.1038/d41573-021-00050-6.5. Abhinandan, K. R. \& Martin, A. C. R. Analyzing the `Degree of Humanness' of Antibody Sequences. J. Mol. Biol. 369, 852--862 (2007).6. North, B., Lehmann, A. \& Dunbrack, R. L. A new clustering of antibody CDR loop conformations. J. Mol. Biol. 406, 228--256 (2011).7. Weitzner, B. D., Dunbrack, R. L. \& Gray, J. J. The origin of CDR H3 structural diversity. Structure 23, 302--311 (2015).8. Finn, J. A. et al. Improving Loop Modeling of the Antibody Complementarity-Determining Region 3 Using Knowledge-Based Restraints. PLoS One 11, e0154811 (2016).9. Regep, C., Georges, G., Shi, J., Popovic, B. \& Deane, C. M. The H3 loop of antibodies shows unique structural characteristics. Proteins Struct. Funct. Bioinforma. 85, 1311--1318 (2017).10. MacCallum, R. M., Martin, A. C. R. \& Thornton, J. M. Antibody-antigen interactions: Contact analysis and binding site topography. J. Mol. Biol. 262, 732--745 (1996).11. Xu, J. L. \& Davis, M. M. Diversity in the CDR3 region of V(H) is sufficient for most antibody specificities. Immunity 13, 37--45 (2000).12. Kabat, E., Wu, T. Te, Perry, H., Foeller, C. \& Gottesman, K. Sequences of proteins of immunological interest. (1992).13. Almagro, J. C. et al. Second Antibody Modeling Assessment (AMA-II). Proteins: Structure, Function and Bioinformatics vol. 82 1553--1562 (2014).14. Almagro, J. C. et al. Antibody modeling assessment. Proteins Struct. Funct. Bioinforma. 79, 3050--3066 (2011).15. Sircar, A., Kim, E. T. \& Gray, J. J. RosettaAntibody: Antibody variable region homology modeling server. Nucleic Acids Res. 37, W474--W479 (2009).16. Sivasubramanian, A., Sircar, A., Chaudhury, S. \& Gray, J. J. Toward high-resolution homology modeling of antibody F v regions and application to antibody-antigen docking. Proteins Struct. Funct. Bioinforma. 74, 497--514 (2009).17. Leem, J., Dunbar, J., Georges, G., Shi, J. \& Deane, C. M. ABodyBuilder: Automated antibody structure prediction with data--driven accuracy estimation. MAbs 8, 1259--1268 (2016).18. Lepore, R., Olimpieri, P. P., Messih, M. A. \& Tramontano, A. PIGSPro: Prediction of immunoGlobulin structures v2. Nucleic Acids Res. 45, W17--W23 (2017).19. Schoeder, C. T. et al. Modeling Immunity with Rosetta: Methods for Antibody and Antigen Design. 60,.20. Weitzner, B. D. \& Gray, J. J. Accurate Structure Prediction of CDR H3 Loops Enabled by a Novel Structure-Based C-Terminal Constraint. J. Immunol. 198, 505--515 (2017).21. Choi, Y. \& Deane, C. M. FREAD revisited: Accurate loop structure prediction using a database search algorithm. Proteins Struct. Funct. Bioinforma. 78, 1431--1440 (2010).22. Martin, A. C. R. \& Thornton, J. M. Structural families in loops of homologous proteins: Automatic classification, modelling and application to antibodies. J. Mol. Biol. 263, 800--815 (1996).23. Almagro, J. C. et al. Antibody modeling assessment. Proteins Struct. Funct. Bioinforma. 79, 3050--3066 (2011).24. Ferdous, S. \& Martin, A. C. R. AbDb: antibody structure database---a database of PDB-derived antibody structures. Database 2018, (2018).25. Abhinandan, K. R. \& Martin, A. C. R. Analysis and prediction of VH/VL packing in antibodies. Protein Eng. Des. Sel. 23, 689--697 (2010).26. Thomsen, M. C. F. \& Nielsen, M. Seq2Logo: A method for construction and visualization of amino acid binding motifs and sequence profiles including sequence weighting, pseudo counts and two-sided representation of amino acid enrichment and depletion. Nucleic Acids Res. 40, (2012).27. Shaner, M. C., Blair's, I. M. \& Schneider, T. D. Sequence Logos: A Powerful, Yet Simple, Tool.28. Chen, T. \& Guestrin, C. XGBoost: A scalable tree boosting system. in Proceedings of the ACM SIGKDD International Conference on Knowledge Discovery and Data Mining vols 13-17-August-2016 785--794 (Association for Computing Machinery, 2016).29. Bengfort, B. et al. Yellowbrick v1.3. (2021) doi:10.5281/ZENODO.4525724.30. Eisenberg, D., Weiss, R. M., Terwilliger, T. C. \& Wilcox, W. Hydrophobic moments and protein structure. in Faraday Symposia of the Chemical Society vol. 17 109--120 (The Royal Society of Chemistry, 1982).31. Lee, B. \& Richards, F. M. The interpretation of protein structures: Estimation of static accessibility. J. Mol. Biol. 55, 379-IN4 (1971).32. Porter, C. T. \& Martin, A. C. R. BiopLib and BiopTools - A C programming library and toolset for manipulating protein structure. Bioinformatics 31, 4017--4019 (2015).33. Van Der Spoel, D. et al. GROMACS: Fast, flexible, and free. J. Comput. Chem. 26, 1701--1718 (2005).34. Nanni, L. \& Lumini, A. A new encoding technique for peptide classification. Expert Syst. Appl. 38, 3185--3191 (2011).35. Wong, T. T. Performance evaluation of classification algorithms by k-fold and leave-one-out cross validation. Pattern Recognit. 48, 2839--2846 (2015).36. Krstajic, D., Buturovic, L. J., Leahy, D. E. \& Thomas, S. Cross-validation pitfalls when selecting and assessing regression and classification models. J. Cheminform. 6, 10 (2014).37. Kohavi, R. A Study of Cross-Validation and Bootstrap for Accuracy Estimation and Model Selection. http://robotics.stanford.edu/\textasciitilde ronnyk (1995).38. Structure, B. M.-B. et B. A. (BBA)-P. \& 1975, undefined. Comparison of the predicted and observed secondary structure of T4 phage lysozyme. Elsevier.39. Chicco, D. Ten quick tips for machine learning in computational biology. BioData Mining vol. 10 35 (2017).40. Morris, J. The Precise Effect of Multicollinearity on Classification Prediction Ridge Regression View project Curriculum-Based VAM View project. https://www.researchgate.net/publication/336561703 (2014).41. Handling Multi-Collinearity in ML Models \textbar{} by Vishwa Pardeshi \textbar{} Towards Data Science. https://towardsdatascience.com/handling-multi-collinearity-6579eb99fd81.42. Jin Lee, C., Park, C.-S., Seok Kim, J. \& Baek, J.-G. A Study on Improving Classification Performance for Manufacturing Process Data with Multicollinearity and Imbalanced Distribution. 41, 25--33 (2015).43. Box, P. O., Van Der Maaten, L., Postma, E. \& Van Den Herik, J. Tilburg centre for Creative Computing Dimensionality Reduction: A Comparative Review Dimensionality Reduction: A Comparative Review. http://www.uvt.nl/ticc (2009).44. Vlachos, M. et al. Non-Linear Dimensionality Reduction Techniques for Classification and Visualization. (2002).45. Sorzano, C. O. S., Vargas, J. \& Pascual-Montano, A. A survey of dimensionality reduction techniques.46. Rifai, S., Vincent, P., Muller, X., Glorot, X. \& Bengio, Y. Contractive Auto-Encoders: Explicit Invariance During Feature Extraction. (2011).47. Chicco, D. \& Jurman, G. The advantages of the Matthews correlation coefficient (MCC) over F1 score and accuracy in binary classification evaluation. BMC Genomics 21, 6 (2020).48. Brown, J. B. Classifiers and their Metrics Quantified. Mol. Inform. 37, 1700127 (2018).49. Delgado, R. \& Tibau, X. A. Why Cohen's Kappa should be avoided as performance measure in classification. PLoS One 14, e0222916 (2019).50. Gorodkin, J. Comparing two K-category assignments by a K-category correlation coefficient. Comput. Biol. Chem. 28, 367--374 (2004).51. Wong, W. K., Leem, J. \& Deane, C. M. Comparative analysis of the CDR loops of antigen receptors Protein structure prediction View project Comparative analysis of the CDR loops of antigen. doi:10.1101/709840.}}\label{charles-a-janeway-j.-travers-p.-walport-m.-shlomchik-m.-j.-the-interaction-of-the-antibody-molecule-with-specific-antigen.-immunobiology-the-immune-system-in-health-and-disease.-garland-science-2001.2.-lu-r.-m.-et-al.-development-of-therapeutic-antibodies-for-the-treatment-of-diseases.-journal-of-biomedical-science-vol.-27-130-2020.3.-antibodies-market-size-share-trends-growth-forecast-2020-to-2025.-httpswww.marketdataforecast.commarket-reportsantibodies-market.4.-urquhart-l.-top-companies-and-drugs-by-sales-in-2020.-nat.-rev.-drug-discov.-2021-doi10.1038d41573-021-00050-6.5.-abhinandan-k.-r.-martin-a.-c.-r.-analyzing-the-degree-of-humanness-of-antibody-sequences.-j.-mol.-biol.-369-852862-2007.6.-north-b.-lehmann-a.-dunbrack-r.-l.-a-new-clustering-of-antibody-cdr-loop-conformations.-j.-mol.-biol.-406-228256-2011.7.-weitzner-b.-d.-dunbrack-r.-l.-gray-j.-j.-the-origin-of-cdr-h3-structural-diversity.-structure-23-302311-2015.8.-finn-j.-a.-et-al.-improving-loop-modeling-of-the-antibody-complementarity-determining-region-3-using-knowledge-based-restraints.-plos-one-11-e0154811-2016.9.-regep-c.-georges-g.-shi-j.-popovic-b.-deane-c.-m.-the-h3-loop-of-antibodies-shows-unique-structural-characteristics.-proteins-struct.-funct.-bioinforma.-85-13111318-2017.10.-maccallum-r.-m.-martin-a.-c.-r.-thornton-j.-m.-antibody-antigen-interactions-contact-analysis-and-binding-site-topography.-j.-mol.-biol.-262-732745-1996.11.-xu-j.-l.-davis-m.-m.-diversity-in-the-cdr3-region-of-vh-is-sufficient-for-most-antibody-specificities.-immunity-13-3745-2000.12.-kabat-e.-wu-t.-te-perry-h.-foeller-c.-gottesman-k.-sequences-of-proteins-of-immunological-interest.-1992.13.-almagro-j.-c.-et-al.-second-antibody-modeling-assessment-ama-ii.-proteins-structure-function-and-bioinformatics-vol.-82-15531562-2014.14.-almagro-j.-c.-et-al.-antibody-modeling-assessment.-proteins-struct.-funct.-bioinforma.-79-30503066-2011.15.-sircar-a.-kim-e.-t.-gray-j.-j.-rosettaantibody-antibody-variable-region-homology-modeling-server.-nucleic-acids-res.-37-w474w479-2009.16.-sivasubramanian-a.-sircar-a.-chaudhury-s.-gray-j.-j.-toward-high-resolution-homology-modeling-of-antibody-f-v-regions-and-application-to-antibody-antigen-docking.-proteins-struct.-funct.-bioinforma.-74-497514-2009.17.-leem-j.-dunbar-j.-georges-g.-shi-j.-deane-c.-m.-abodybuilder-automated-antibody-structure-prediction-with-datadriven-accuracy-estimation.-mabs-8-12591268-2016.18.-lepore-r.-olimpieri-p.-p.-messih-m.-a.-tramontano-a.-pigspro-prediction-of-immunoglobulin-structures-v2.-nucleic-acids-res.-45-w17w23-2017.19.-schoeder-c.-t.-et-al.-modeling-immunity-with-rosetta-methods-for-antibody-and-antigen-design.-60.20.-weitzner-b.-d.-gray-j.-j.-accurate-structure-prediction-of-cdr-h3-loops-enabled-by-a-novel-structure-based-c-terminal-constraint.-j.-immunol.-198-505515-2017.21.-choi-y.-deane-c.-m.-fread-revisited-accurate-loop-structure-prediction-using-a-database-search-algorithm.-proteins-struct.-funct.-bioinforma.-78-14311440-2010.22.-martin-a.-c.-r.-thornton-j.-m.-structural-families-in-loops-of-homologous-proteins-automatic-classification-modelling-and-application-to-antibodies.-j.-mol.-biol.-263-800815-1996.23.-almagro-j.-c.-et-al.-antibody-modeling-assessment.-proteins-struct.-funct.-bioinforma.-79-30503066-2011.24.-ferdous-s.-martin-a.-c.-r.-abdb-antibody-structure-databasea-database-of-pdb-derived-antibody-structures.-database-2018-2018.25.-abhinandan-k.-r.-martin-a.-c.-r.-analysis-and-prediction-of-vhvl-packing-in-antibodies.-protein-eng.-des.-sel.-23-689697-2010.26.-thomsen-m.-c.-f.-nielsen-m.-seq2logo-a-method-for-construction-and-visualization-of-amino-acid-binding-motifs-and-sequence-profiles-including-sequence-weighting-pseudo-counts-and-two-sided-representation-of-amino-acid-enrichment-and-depletion.-nucleic-acids-res.-40-2012.27.-shaner-m.-c.-blairs-i.-m.-schneider-t.-d.-sequence-logos-a-powerful-yet-simple-tool.28.-chen-t.-guestrin-c.-xgboost-a-scalable-tree-boosting-system.-in-proceedings-of-the-acm-sigkdd-international-conference-on-knowledge-discovery-and-data-mining-vols-13-17-august-2016-785794-association-for-computing-machinery-2016.29.-bengfort-b.-et-al.-yellowbrick-v1.3.-2021-doi10.5281zenodo.4525724.30.-eisenberg-d.-weiss-r.-m.-terwilliger-t.-c.-wilcox-w.-hydrophobic-moments-and-protein-structure.-in-faraday-symposia-of-the-chemical-society-vol.-17-109120-the-royal-society-of-chemistry-1982.31.-lee-b.-richards-f.-m.-the-interpretation-of-protein-structures-estimation-of-static-accessibility.-j.-mol.-biol.-55-379-in4-1971.32.-porter-c.-t.-martin-a.-c.-r.-bioplib-and-bioptools---a-c-programming-library-and-toolset-for-manipulating-protein-structure.-bioinformatics-31-40174019-2015.33.-van-der-spoel-d.-et-al.-gromacs-fast-flexible-and-free.-j.-comput.-chem.-26-17011718-2005.34.-nanni-l.-lumini-a.-a-new-encoding-technique-for-peptide-classification.-expert-syst.-appl.-38-31853191-2011.35.-wong-t.-t.-performance-evaluation-of-classification-algorithms-by-k-fold-and-leave-one-out-cross-validation.-pattern-recognit.-48-28392846-2015.36.-krstajic-d.-buturovic-l.-j.-leahy-d.-e.-thomas-s.-cross-validation-pitfalls-when-selecting-and-assessing-regression-and-classification-models.-j.-cheminform.-6-10-2014.37.-kohavi-r.-a-study-of-cross-validation-and-bootstrap-for-accuracy-estimation-and-model-selection.-httprobotics.stanford.eduronnyk-1995.38.-structure-b.-m.-b.-et-b.-a.-bba-p.-1975-undefined.-comparison-of-the-predicted-and-observed-secondary-structure-of-t4-phage-lysozyme.-elsevier.39.-chicco-d.-ten-quick-tips-for-machine-learning-in-computational-biology.-biodata-mining-vol.-10-35-2017.40.-morris-j.-the-precise-effect-of-multicollinearity-on-classification-prediction-ridge-regression-view-project-curriculum-based-vam-view-project.-httpswww.researchgate.netpublication336561703-2014.41.-handling-multi-collinearity-in-ml-models-by-vishwa-pardeshi-towards-data-science.-httpstowardsdatascience.comhandling-multi-collinearity-6579eb99fd81.42.-jin-lee-c.-park-c.-s.-seok-kim-j.-baek-j.-g.-a-study-on-improving-classification-performance-for-manufacturing-process-data-with-multicollinearity-and-imbalanced-distribution.-41-2533-2015.43.-box-p.-o.-van-der-maaten-l.-postma-e.-van-den-herik-j.-tilburg-centre-for-creative-computing-dimensionality-reduction-a-comparative-review-dimensionality-reduction-a-comparative-review.-httpwww.uvt.nlticc-2009.44.-vlachos-m.-et-al.-non-linear-dimensionality-reduction-techniques-for-classification-and-visualization.-2002.45.-sorzano-c.-o.-s.-vargas-j.-pascual-montano-a.-a-survey-of-dimensionality-reduction-techniques.46.-rifai-s.-vincent-p.-muller-x.-glorot-x.-bengio-y.-contractive-auto-encoders-explicit-invariance-during-feature-extraction.-2011.47.-chicco-d.-jurman-g.-the-advantages-of-the-matthews-correlation-coefficient-mcc-over-f1-score-and-accuracy-in-binary-classification-evaluation.-bmc-genomics-21-6-2020.48.-brown-j.-b.-classifiers-and-their-metrics-quantified.-mol.-inform.-37-1700127-2018.49.-delgado-r.-tibau-x.-a.-why-cohens-kappa-should-be-avoided-as-performance-measure-in-classification.-plos-one-14-e0222916-2019.50.-gorodkin-j.-comparing-two-k-category-assignments-by-a-k-category-correlation-coefficient.-comput.-biol.-chem.-28-367374-2004.51.-wong-w.-k.-leem-j.-deane-c.-m.-comparative-analysis-of-the-cdr-loops-of-antigen-receptors-protein-structure-prediction-view-project-comparative-analysis-of-the-cdr-loops-of-antigen.-doi10.1101709840.}}
+
+\textbf{APPENDIX}
+
+\end{document}
