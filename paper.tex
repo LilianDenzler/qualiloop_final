@@ -16,8 +16,10 @@
 \newcommand{\e}[1]{\mbox{$\times 10^{#1}$}}
 \newcommand{\etal}{~\emph{et al.}}
 \newcommand{\degree}{\mbox{${}^{\circ}$}}
-\newcommand{\lilian}[1]{{\color{red}\sout{#1}}}
-\newcommand{\andrew}[1]{{\color{green}\uline{#1}}}
+\newcommand{\lilian}[1]{{\color{red}{\bfseries Lilian:} #1}}
+\newcommand{\andrew}[1]{{\color{green}{\bfseries Andrew:} #1}}
+\newcommand{\rewrite}[1]{{\color{blue}{\bfseries Andrew to rewrite:} #1}}
+\newcommand{\highlight}[1]{{\color{cyan} #1}}
 
 
 \title{Predicting the Quality of CDRH3 Antibody Loop Structural Models}
@@ -34,19 +36,19 @@ London WC1E 6BT, UK
 \begin{abstract}
   Therapeutic antibodies have shown an unprecedented pace of
   development and have brought new hope for the treatment of numerous
-  diseases. The bioinformatic tools for modelling antibody structures
+  diseases. Bioinformatics tools for modelling antibody structures
   have become invaluable for antibody engineering and the development
   of therapeutic antibodies. The antigen-binding site consists of six
   hypervariable loops, also known as the Complementary Determining
-  Regions (CDR), all of which can be modelled with adequate accuracy,
-  except for one. It remains markedly difficult to model the third CDR
-  loop of the antibody heavy chain. The CDR-H3 differs in length, has
-  far greater sequence variability and has such a great structural
-  diversity that modelling it is considerably harder.
+  Regions (CDRs), all of which can be modelled with adequate accuracy,
+  except for one. It remains remarkably difficult to model the third CDR
+  loop of the antibody heavy chain. CDR-H3 has
+  far greater length and sequence variability, with such great structural
+  diversity, that modelling it is considerably harder.
 
-  Many sophisticated approaches for antibody modelling, such as the
+  Many approaches for antibody modelling, such as our
   abYmod software, have been developed. Although such efforts have
-  improved prediction accuracy the results for the CDR-H3 loop are
+  improved prediction accuracy the results for CDR-H3 are
   still inconsistent and require further improvement. Providing a
   confidence score for the structure predictions would aid in
   differentiating well-modelled structures from incorrectly modelled
@@ -66,58 +68,54 @@ London WC1E 6BT, UK
 Antibodies are highly specialized proteins of the immune system that
 are produced in response to a foreign substance, called an antigen. A
 mature antibody binds a specific antigen with high affinity, while
-only weakly interacting with other antigens, or not at all. This high
-affinity, high specificity sets it apart from other pharmaceuticals.
+only weakly interacting with other antigens, or not at all. \lilian{Introduce the use as drugs} This high
+affinity and high specificity sets it apart from other pharmaceuticals.
 Furthermore, in contrast with small drug molecules, antibodies can not
-only bind pockets, but also flat, concave or even convex
+only bind pockets, but also flat, concave or convex
 surfaces\cite{Tavers2001}. Their unique characteristics have enabled 
 researchers to develop efficient antibody drugs for treating cancers,
 autoimmune disorders, infectious diseases and many more\cite{Lu2020}.
 Their ability to target an immense variety of antigens allows for
-endless possibilities in application. The global market size was
-valued at USD 130.9 billion in 2020, estimated to grow 223.7 billion
-by the end of 2025 at a compound annual growth rate of
-11.31\%\cite{market2020}. Four of the top 10 best-selling drugs in
+endless possibilities in application. 
+Four of the top 10 best-selling drugs in
 2020 were monoclonal antibodies\cite{Urquhart2021}.
 
-In order to rationally design therapeutic antibodies, knowledge of
+In order to design therapeutic antibodies rationally, knowledge of
 their structure is essential. The acquired structural information can
 be used to increase binding affinity to a target of interest,
 predicting both the exact binding site and the antibody stability as
 well as assessing immunogenicity\cite{Abhinandan2007}. As
-experimental structure determination is very costly and time
+experimental structure determination is costly and time
 consuming, computational predictions of an antibody's structure are
 used to streamline the process.
 
-Antibodies consist of a heavy and a light chain, which are linked by
-disulphide bonds. The N-terminal domain of each makes up the variable
-fragment (Fv), which contains the complementarity determining regions
-(CDRs). The antigen binding site is composed of six CDRs, also known
-as hypervariable loops. All except one of these loops can be clustered
-into a limited number of canonical structures. Therefore, modelling
+The variable
+fragment (Fv) of an antibody contains the six complementarity determining regions
+(CDRs, also known as hypervariable loops) which form the antigen binding site.
+All except one of these loops can be clustered
+into a limited number of `canonical structures'\cite{XXXX}. Therefore, modelling
 these loops with adequate accuracy is commonly
-achievable\cite{North2011,Weitzner2015}. However, the CDR loop 3 of
-the 
+achievable\cite{North2011,Weitzner2015}. \lilian{Is the second reference relevant here?} However, the CDR loop 3 of the 
 heavy chain (CDR-H3) has a far greater sequence variability due to the
 processes of V(D)J recombination and somatic hyper‐mutation and its
 structure has remained unclassifiable\cite{Finn2016}. The variety in
 structure is so great, that its structural diversity is remarkable
 even compared to other protein loops\cite{Regep2017}. It was found
 that over 75\% of CDR-H3 loops do not have a sub-{\AA}ngstr\"{o}m non-antibody
-structural neighbour, as well as that 30\% of CDR-H3 loops have a
-completely unique structure compared with under 3\% for all other
-loops on average\cite{Regep2017}.
+structural neighbour, while 30\% of CDR-H3 loops have a
+completely unique structure compared with under 3\% for all non-antibody
+loops\cite{Regep2017}.
 
 Apart from being the most structurally diverse, the CDR-H3 loop is
 also the most important for antigen binding, being located at the
-center of the binding site and forming the most contacts to the
-antigen\cite{MacCallum1996}. In fact, it was demonstrated that
-differences in this loop alone were sufficient to enable otherwise
+center of the binding site and forming the most contacts with the
+antigen\cite{MacCallum1996}. It was demonstrated that
+differences in this loop alone are sufficient to enable otherwise
 identical antibodies to distinguish between various
 antigens\cite{Xu2000}.
 
 According to the Kabat definition, the CDR-H3 loop is made up of the
-residues 95--105 (Kabat numbering scheme\cite{Kabat1992}) in the heavy
+residues 95--105 (using the Kabat\cite{Kabat1992}, Chothia\cite{XXXX} or Martin\cite{XXXX} numbering schemes) in the heavy
 chain, with a potential insertion site at position 100. The
 possibility of such an insertion of a varying number of residues leads
 to a large range of loop lengths, with bovine antibodies being
@@ -126,14 +124,14 @@ exceptionally long (Figure~\ref{fig:loopdist}).
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{loopdist.eps}
-  \caption { Distribution of CDR-H3 loop lengths in mouse (left),
+  \caption{Distribution of CDR-H3 loop lengths in mouse (left),
     human (centre) and cow (right). Mouse and human antibody CDR-H3s
     have a unimodal, yet almost normal distribution with a range of
     $\sim$4--28 and 4--38 respectively. The length cut-off for CDR-H3s
     depicted above is 30 amino acids. Bovine antibodies with
     significantly longer CDR-H3 loops than depicted here exist,
     reaching a length of 67 amino acids and
-    above\protect\cite{Wong2015}.}  
+    above\protect\cite{Wong2015}. \lilian{Do we need this?}}  
   \label{fig:loopdist}
 \end{figure}
 
@@ -147,32 +145,33 @@ for loops of longer lengths\cite{Almagro2011,Almagro2014}.
 Several different approaches for generating three-dimensional
 structure models from antibody sequences exist such as
 RosettaAntibody\cite{Sircar2009,Sivasubramanian2009}, 
-ABodyBuilder\cite{Leem2016}, PIGSPro\cite{Lepore2017} and abYmod,
-UCL's in-house software developed by Prof.\ Martin. One of the most
+ABodyBuilder\cite{Leem2016}, PIGSPro\cite{Lepore2017} \lilian{Lyra, AbLooper} and our own abYmod.
+One of the most
 used methods is RosettaAntibody, which implements template selection
-and ab initio CDR-H3 loop modelling using loop fragments and employing
+and \emph{ab initio} CDR-H3 loop modelling using loop fragments and employing
 specific angle restraints which bias the conformational space towards
 so-called `kinked' loops\cite{Schoeder2021,Weitzner2017}. In
 contrast, ABodyBuilder uses a database search algorithm
 (FREAD\cite{Choi2010}) for CDR loop modelling.
-
-In this project abYmod is used, which is to be found at
-\url{http://abymod.abysis.org/}. The program utilizes extensive canonical
+abYmod \url{http://abymod.abysis.org/} utilizes extensive canonical
 class definitions, \VHVL\ angle prediction and a large database of loop
-structures (LoopDB) for CDR-H3 modelling to achieve optimal
-results. Upon inputting an antibody sequence, abYmod assigns the
-canonical class using a set of key residues\cite{Martin1996}and where
-an exact match is not possible, a nearest match is made. Then, the
+structures (LoopDB) for CDR-H3 modelling.
+Upon inputting an antibody sequence, abYmod assigns the
+canonical class using a set of key residues\cite{Martin1996} and where
+an exact match is not possible, a nearest match is made. \rewrite{Then, the
 program identifies the 10 best overall-matching PDB files according to
 sequence identity for the light and heavy chain. Of these, the best
 template is then identified for each CDR using sequence similarity and
 identity. In general, modelling the antibody using the single best
 overall-matching template works best and the CDR-specific templates
-are used if there is no canonical match. The \VHVL\ packing angle is
-then determined either using machine learning or the chosen template
+are used if there is no canonical match.}
+
+
+The \VHVL\ packing angle is
+then determined either using machine learning \lilian{not yet!} or the chosen template
 structure for one of the chains. CDR specific templates, if selected,
 are grafted onto the framework. If there is no template of the correct
-length for CDR-H3, the loop is built using the LoopDB database,
+length for CDR-H3, the loop is built using LoopDB,
 containing CDR-H3-like loops from all proteins. Finally, Gromacs energy
 minimization software is used to optimize the model. This method has
 proven very effective and preliminary analysis suggests the method
@@ -180,13 +179,13 @@ achieves comparable results or outperforms other modelling software
 (see results section).
 
 Using these mentioned modelling methods, framework regions can
-generally be predicted with great accuracy (with better than 1\AA\
+generally be predicted with great accuracy (with better than 1~\AA\
 RMSD\cite{Almagro2014}), as one can often find a very similar
 structure for the homology modelling process.  However, the CDR loops
 are not as easily predicted due to their great diversity. If the
-canonical conformation of CDR loops 1--5 can be identified, they too
-can be modelled rather well, often within 1\AA\ RMSD, for CDR-H3 loops
-the average is usually above 3\AA\cite{Almagro2011}.
+canonical conformation of CDR loops CDR-L1--L3 and CDR-H1--H2 can be identified, they too
+can be modelled rather well, often within 1~\AA\ RMSD, for CDR-H3 loops
+the \lilian{not sure what average and usually mean} average is usually above 3~\AA\cite{Almagro2011}.
 
 ABodyBuilder is a modelling server that provides the user with a
 confidence score for each region (e.g.\ CDR-H2) of the antibody
@@ -206,40 +205,38 @@ how well the generated diversity score reflects model
 quality\cite{Abanades2022}.
 
 
-Modelling the CDR-H3 loop is a hurdle for in silico development of
+Modelling the CDR-H3 loop is a hurdle for \emph{in silico} development of
 therapeutic antibodies. Currently, there is no definite, reliable way
 to determine how accurate a generated structural model is within the
-H3 region. Therefore, the aim of this project will be to produce a
+H3 region. Therefore, we have produced a
 user-friendly predictor of CDR-H3 model quality. The predictor will give
 the user an RMSD-range in {\AA}ngstr\"{o}ms, in which the generated model lies
-with a high probability. Making such a confidence score available via
-the web interface of the in-house modelling software abYmod is a
-future goal. Such a score is not provided by most modelling programs
-and would thus be a novel addition.  This information can guide the
+with a high probability.
+This information can guide the
 user in the antibody engineering process. The user has the choice to
-determine whether the model is to be used in the intended way, or
+determine whether the model is to be used as is, or
 whether the model should be re-worked.
 
 \section{Results}
-To asses the predictive power regarding the CDR-H3 loop, the software
+The software
 was tested on a test-set of antibody structures used in the 2014 and
 2011 Antibody Modelling Assessments
 \cite{Almagro2011,Almagro2014}. As the results depicted in
-Figure~\ref{fig:AMA} show, abYmod achieves results similar to, or better than
+Figure~\ref{fig:AMA} show, abYmod achieves results similar to, or better than,
 other modelling programs. However, the outliers with very high RMSD
 values increase abYmod's RMSD average. The predictor in this work
 would aim to identify such outlier models.
 
 The predictive power of any machine learning model is largely
-dependent on the quality and size of the dataset it was trained on. As
+dependent on the quality and size of the dataset on which it was trained. As
 this is a non-linear, complex, multi-class classification problem, a
 substantial amount of data was required. Thus, an extensive, verified
 dataset of antibody structures called abYbank/AbDb\cite{XXXX},
-established by Prof.\ Andrew Martin, was utilised (1924 non-redundant
-structures). The root-mean-square deviation (RMSD) value, a measure of
-distance between backbone \ca\ atoms of superimposed crystal structures
-and modelled structures, is calculated (see methods). This metric for
-model quality was used to classify models.
+was utilised (1924 non-redundant
+structures). The \ca\ root-mean-square deviation (RMSD) value
+between the crystal structures
+and modelled structures was calculated (see Methods) and
+was used to classify models.
 
 \begin{figure}
   \centering
@@ -247,25 +244,24 @@ model quality was used to classify models.
   \caption {RMSD values of the CDR-H3 loop for structures from the
     Antibody Modelling Assessment I (2011) and AMAII (2014). abYmod
     outperforms other modelling software in some instances, but also
-    has much lower accuracy in few outlier cases. (left: an abYmod
+    has much lower accuracy in few outlier cases. Left: an abYmod
     structure for C705 could be generated, yet the RMSD calculation
-    failed. Right: Ab01 is the rabbit antibody PDB:4MA3, which was
+    failed \lilian{Why? I'm sure we can resolve this!}.
+    Right: Ab01 is the rabbit antibody PDB:4MA3, which was
     excluded in the CDR-H3 modelling stage in AMAII due to
     difficulties modelling the overall structure previously. Ab01 is
     shown for the methods, where generated models were adequate for
-    RMSD calculation.)}
+    RMSD calculation. \lilian{This needs better explanation}}
   \label{fig:AMA}
 \end{figure}
 
-The full pipeline for creating the final machine learning model that
-will predict model quality by giving its RMSD range starts with a
+The full pipeline for creating the final machine learning model
+starts with 
 feature-set calculation using the antibody sequence. The feature set
-includes many different attributes linked to sequence, physical
-characteristics, interactions, etc., within as well as outside of the
-loop. There is a plethora of information to train our classifier on,
-including packing quality, protrusion, hydrophobicity, pseudo-energy
-(see protrusion, hydrophobicity, pseudo-energy (see methods for
-details). The sequence logo (Figure~\ref{fig:logo}) visualizes amino acid
+includes attributes linked to sequence, structure, physical
+characteristics, interactions, etc., within, as well as outside, the
+loop. 
+The sequence logo (Figure~\ref{fig:logo}) visualizes amino acid
 occurrence within the loop sequence, elements of which can be
 extracted as features \cite{Thomsen2012,Shaner1993}.
 
@@ -274,52 +270,49 @@ extracted as features \cite{Thomsen2012,Shaner1993}.
   \includegraphics[width=\linewidth]{logo.eps}
   \caption {Sequence Logo of the CDR-H3 loop sequence. Data on amino
     acid occurrence taken from \protect\url{http://abymod.abysis.org/} Visualized
-    using Seq2Logo.}
+    using Seq2Logo. \lilian{What's the X-axis numbering? IMGT? Can you highlight the CDR residues (95--122) What range of lengths is included?}}
   \label{fig:logo}
 \end{figure}
 
 After creating the feature dataset, it is pre-processed (cleaning,
 scaling, encoding, see methods for details). Structures with a
-resolution below 4\AA\ were removed given their low quality. Identical
-whole antibody structures were removed from the dataset, while
+resolution worse than 4~\AA\ were removed.
+\lilian{You already said it was a non-redundant set?} \highlight{Identical
+whole antibody structures were removed from the dataset}, \lilian{I don't understand this bit!} \highlight{while
 instances of different antibodies that matched in loop sequence were
-not removed. Models of some of these structures with the same loop
+not removed}. Models of some of these structures with the same loop
 sequence differ significantly. The few large RMSD ranges may stem from
-low resolution, e.g.\ the highest datapoint contains a structure with a
-resolution of 3.00~\AA.  Residue differences near the loop may also
-explain the conformational difference. Some of these structures are
+low resolution. For example, the \highlight{highest} \lilian{What does `highest' mean?} datapoint contains a structure with a
+resolution of 3.00~\AA.  \lilian{Explain} \highlight{Residue differences near the loop may also
+explain the conformational difference}. Some of these structures are
 complexed while others are not, which may also affect the loop
-structure.
+structure (manuscript in preparation).
 
 
-The dataset was also screened for any models which abYmod created
-using a template sequence from LoopDB, a database of CDR-H3 like loops
-from all proteins. This was not the case for any of our structures.
-
-The target data (i.e.\ RMSD values) are then transformed from numerical
+The target data (i.e.\ RMSD values) are transformed from numerical
 values to nominal values so that they can be used for
 classification. In order to define these nominal categories, the total
 RMSD range must be divided into categories. This is done either by
-creating uniform classes i.e.\ 1--2~\AA, 2--3~\AA\ (the optimal size of which
-must be determined), etc.\ or by creating balanced classes. When
+creating uniform classes i.e.\ 1--2~\AA, 2--3~\AA, etc., (the optimal size of which
+must be determined), or by creating balanced classes. When
 creating balanced classes, the upper and lower thresholds of a
 category are chosen in such a way that each class contains an equal
-number of instances. This approach is chosen to counteract the
+number of instances. This approach was chosen to counteract the
 skewness of the RMSD distribution. However, this was found to
-negatively affect the final model's predictive power. Therefore,
+affect the final model's predictive power negatively. Therefore,
 uniform classes were used.
 
-They are also transformed into a set of binary values according to a
+They are also transformed \lilian{explain?} into a set of binary values according to a
 list of RMSD thresholds. This is done so that binary models can be
 trained, which will predict the probability e.g.\ that the model's RMSD
 is above 2~\AA, 2.2~\AA, 2.4~\AA, and so on. The number of binary
-classifiers incorporated into the first layer have a great effect on
+classifiers incorporated into the first layer has a great effect on
 the final model, the general trend being that the more binary
-classifiers are used, the better the nominal prediction.
+classifiers are used, the better the nominal prediction. \lilian{Data?}
 
 \subsection{Feature Encoding and Selection}
 
-As some features are in the form of amino acid codes, these must be
+As some features are in the form of amino acid names, these must be
 encoded before they can be passed to a machine learning model. The
 encoding strategy often determines how efficiently the model learns
 and how much information can be extracted. Different strategies were
@@ -546,8 +539,8 @@ single top-layer nominal classifier) was shown to outperform single ML
 models.
 
 An MCC value of 0.99 was achieved for a classifier predicting whether
-an input-model has an RMSD value below 2\AA, 2\AA--4\AA\ or above
-4\AA.
+an input-model has an RMSD value below 2~\AA, 2~\AA--4~\AA\ or above
+4~\AA.
 
 Given that abYbank/AbDb is soon to be expanded by an additional
 $\sim$2000 structures, classifier performance on models without a known
