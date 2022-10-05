@@ -88,7 +88,7 @@ processes of V(D)J recombination and somatic hyper‐mutation and its
 structure has remained unclassifiable\cite{Finn2016}. The variety in
 structure is so great, that its structural diversity is remarkable
 even compared to other protein loops\cite{Regep2017}. It was found
-that over 75\% of CDR-H3 loops do not have a sub-Angstrom non-antibody
+that over 75\% of CDR-H3 loops do not have a sub-{\AA}ngstr\"{o}m non-antibody
 structural neighbour, as well as that 30\% of CDR-H3 loops have a
 completely unique structure compared with under 3\% for all other
 loops on average\cite{Regep2017}.
@@ -102,7 +102,7 @@ identical antibodies to distinguish between various
 antigens\cite{Xu2000}.
 
 According to the Kabat definition, the CDR-H3 loop is made up of the
-residues 95-105 (Kabat numbering scheme\cite{Kabat1992}) in the heavy
+residues 95--105 (Kabat numbering scheme\cite{Kabat1992}) in the heavy
 chain, with a potential insertion site at position 100. The
 possibility of such an insertion of a varying number of residues leads
 to a large range of loop lengths, with bovine antibodies being
@@ -114,7 +114,7 @@ exceptionally long (Figure~\ref{fig:loopdist}).
   \caption { Distribution of CDR-H3 loop lengths in mouse (left),
     human (centre) and cow (right). Mouse and human antibody CDR-H3s
     have a unimodal, yet almost normal distribution with a range of
-    ca. 4-28 and 4-38 respectively. The length cut-off for CDR-H3s
+    $\sim$4--28 and 4--38 respectively. The length cut-off for CDR-H3s
     depicted above is 30 amino acids. Bovine antibodies with
     significantly longer CDR-H3 loops than depicted here exist,
     reaching a length of 67 amino acids and
@@ -169,7 +169,7 @@ generally be predicted with great accuracy (with better than 1\AA\
 RMSD\cite{Almagro2014}), as one can often find a very similar
 structure for the homology modelling process.  However, the CDR loops
 are not as easily predicted due to their great diversity. If the
-canonical conformation of CDR loops 1-5 can be identified, they too
+canonical conformation of CDR loops 1--5 can be identified, they too
 can be modelled rather well, often within 1\AA\ RMSD, for CDR-H3 loops
 the average is usually above 3\AA\cite{Almagro2011}.
 
@@ -284,8 +284,8 @@ The target data (i.e.\ RMSD values) are then transformed from numerical
 values to nominal values so that they can be used for
 classification. In order to define these nominal categories, the total
 RMSD range must be divided into categories. This is done either by
-creating uniform classes i.e.\ 1-2~\AA, 2-3~\AA\ (the optimal size of which
-must be determined), etc. or by creating balanced classes. When
+creating uniform classes i.e.\ 1--2~\AA, 2--3~\AA\ (the optimal size of which
+must be determined), etc.\ or by creating balanced classes. When
 creating balanced classes, the upper and lower thresholds of a
 category are chosen in such a way that each class contains an equal
 number of instances. This approach is chosen to counteract the
@@ -369,7 +369,7 @@ given. This is mainly due to the fact that the template sequence
 abYmod used to generate the model is unknown in the latter case.
 
 The classifier predicts whether a model has an RMSD of below 2~\AA,
-between 2-4~\AA, or above 4~\AA. These cut-off values were selected
+between 2--4~\AA, or above 4~\AA. These cutoff values were selected
 based on the observation that abYmod generally produces a model with
 RMSD below 4~\AA. Incorrectly modelled structures (Figure~\ref{fig:AMA}) may
 be identified by screening for structures estimated to have an RMSD
@@ -380,7 +380,7 @@ exclude models above 2~\AA.
 \section{Methods}
 
 \subsection{Computing}
-All machine learning and, feature selection and hyperparameter
+All machine learning and feature selection and hyperparameter
 optimization algorithms were implemented in Python. The Scikit-learn
 library was used for training models, the
 Yellowbrick\cite{Bengfort2021} library was utilized for
@@ -435,8 +435,8 @@ a neural network for predicting the packing angle of the light and
 heavy variable chain of an antibodies, A.C.R.~Martin and
 K.R.~Abhinandan introduce an encoding method that produces a
 four-dimensional physiochemical feature vector25. The amino acid
-properties used are 1) the total number of side-chain atoms, 2) the
-number of side-chain atoms in the shortest path from \ca\ to the most
+properties used are 1) the total number of sidechain atoms, 2) the
+number of sidechain atoms in the shortest path from \ca\ to the most
 distal atom, 3) the Eisenberg consensus
 hydrophobicity\cite{Eisenberg1982}, 4) the charge.
 
@@ -517,7 +517,7 @@ strategy was most effective.
 
 The selection of features incorporated in the training set seemed to
 be most important for effective learning. A multitude of methods were
-tested. No one-fit-for-all method for the different models could be
+tested. No one fit-for-all method for the different models could be
 found. However, for our top-layer classifier in our final model
 recursive feature elimination worked best.
 
