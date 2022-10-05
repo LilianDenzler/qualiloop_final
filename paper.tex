@@ -109,8 +109,8 @@ to a large range of loop lengths, with bovine antibodies being
 exceptionally long (Figure~\ref{fig:loopdist}).
 
 \begin{figure}
-  \includegraphics[scale=1]{loopdist.eps}
   \centering
+  \includegraphics[width=\linewidth]{loopdist.eps}
   \caption { Distribution of CDR-H3 loop lengths in mouse (left),
     human (centre) and cow (right). Mouse and human antibody CDR-H3s
     have a unimodal, yet almost normal distribution with a range of
@@ -228,7 +228,7 @@ model quality was used to classify models.
 
 \begin{figure}
   \centering
-  \includegraphics[scale=0.3]{AMA.eps}
+  \includegraphics[width=\linewidth]{AMA.eps}
   \caption {RMSD values of the CDR-H3 loop for structures from the
     Antibody Modelling Assessment I (2011) and AMAII (2014). abYmod
     outperforms other modelling software in some instances, but also
@@ -255,7 +255,8 @@ occurrence within the loop sequence, elements of which can be
 extracted as features \cite{Thomsen2012,Shaner1993}.
 
 \begin{figure}
-  \includegraphics[scale=0.9]{logo.eps}
+  \centering
+  \includegraphics[width=\linewidth]{logo.eps}
   \caption {Sequence Logo of the CDR-H3 loop sequence. Data on amino
     acid occurrence taken from \protect\url{http://abymod.abysis.org/} Visualized
     using Seq2Logo.}
@@ -468,13 +469,14 @@ problems and therefore well suited for our purpose.
 \subsection{Feature Calculations}
 \begin{figure}
   \centering
-  \includegraphics[scale=0.49]{feature_table.eps}
+  \includegraphics[width=\linewidth]{feature_table.eps}
   \caption {A summary of how different feature values were calculated.}
   \label{fig:feature_table}
 \end{figure}
 
 \begin{figure}
-  \includegraphics[scale=0.6]{angle.eps}
+  \centering
+  \includegraphics[width=\linewidth]{angle.eps}
   \caption {Diagram visualizing the process underlying the protrusion
     calculation. First, the base residues (i.e.\ H95 and H102, shown as
     red spheres) of the CDR-H3 (shown in red) are identified. Then, a
@@ -490,7 +492,8 @@ problems and therefore well suited for our purpose.
 
 
 \begin{figure}
-  \includegraphics[scale=0.45]{method.eps}
+  \centering
+  \includegraphics[width=\linewidth]{method.eps}
   \caption {Simplified pipeline for creating the final machine
     learning model that will predict model quality by giving its RMSD
     range.}
