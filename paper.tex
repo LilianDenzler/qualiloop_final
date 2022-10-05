@@ -104,7 +104,7 @@ residues 95-105 (Kabat numbering scheme\cite{Kabat1992}) in the heavy
 chain, with a potential insertion site at position 100. The
 possibility of such an insertion of a varying number of residues leads
 to a large range of loop lengths, with bovine antibodies being
-exceptionally long \ref{fig:loopdist}.
+exceptionally long (Figure~\ref{fig:loopdist}).
 
 \begin{figure}
   \includegraphics[scale=1]{loopdist.eps}
@@ -208,7 +208,7 @@ To asses the predictive power regarding the CDR-H3 loop, the software
 was tested on a test-set of antibody structures used in the 2014 and
 2011 Antibody Modelling Assessments
 \cite{Almagro2011,Almagro2014}. As the results depicted in
-\ref{fig:AMA} show, abYmod achieves results similar to, or better than
+Figure~\ref{fig:AMA} show, abYmod achieves results similar to, or better than
 other modelling programs. However, the outliers with very high RMSD
 values increase abYmod's RMSD average. The predictor in this work
 would aim to identify such outlier models.
@@ -248,7 +248,7 @@ characteristics, interactions, etc. within as well as outside of the
 loop. There is a plethora of information to train our classifier on,
 including packing quality, protrusion, hydrophobicity, pseudo-energy
 (see protrusion, hydrophobicity, pseudo-energy (see methods for
-details). The sequence logo \ref{fig:logo} visualizes amino acid
+details). The sequence logo (Figure~\ref{fig:logo}) visualizes amino acid
 occurrence within the loop sequence, elements of which can be
 extracted as features \cite{Thomsen2012,Shaner1993}.
 
@@ -369,7 +369,7 @@ abYmod used to generate the model is unknown in the latter case.
 The classifier predicts whether a model has an RMSD of below 2\AA,
 between 2-4\AA, or above 4\AA. These cut-off values were selected
 based on the observation that abYmod generally produces a model with
-RMSD below 4\AA. Incorrectly modelled structures (\ref{fig:AMA}) may
+RMSD below 4\AA. Incorrectly modelled structures (Figure~\ref{fig:AMA}) may
 be identified by screening for structures estimated to have an RMSD
 above 4\AA. If a very high-quality model is needed one should also
 exclude models above 2\AA.
