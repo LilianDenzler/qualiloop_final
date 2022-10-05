@@ -3,8 +3,7 @@
 \usepackage{a4}
 \usepackage{graphicx}
 \usepackage{url}
-%% The amssymb package provides various useful mathematical symbols
-\usepackage{amssymb}
+\newcommand{\ca}{\mbox{C$\alpha$}}
 
 \title{Predicting the Quality of CDRH3 Antibody Loop Structural Models}
 \author{Lilian M.\ Denzler and Andrew C.R.\ Martin\\
@@ -221,7 +220,7 @@ substantial amount of data was required. Thus, an extensive, verified
 dataset of antibody structures called abYbank/AbDb\cite{XXXX},
 established by Prof. Andrew Martin, was utilised (1924 non-redundant
 structures). The root-mean-square deviation (RMSD) value, a measure of
-distance between backbone C-$\alpha$ atoms of superimposed crystal structures
+distance between backbone \ca\ atoms of superimposed crystal structures
 and modelled structures, is calculated (see methods). This metric for
 model quality was used to classify models.
 
@@ -435,7 +434,7 @@ heavy variable chain of an antibodies, A.C.R. Martin and
 K.R. Abhinandan introduce an encoding method that produces a
 four-dimensional physiochemical feature vector25. The amino acid
 properties used are 1) the total number of side-chain atoms, 2) the
-number of side-chain atoms in the shortest path from C$\alpha$ to the most
+number of side-chain atoms in the shortest path from \ca\ to the most
 distal atom, 3) the Eisenberg consensus
 hydrophobicity\cite{Eisenberg1982}, 4) the charge.
 
@@ -477,8 +476,8 @@ problems and therefore well suited for our purpose.
   \caption {Diagram visualizing the process underlying the protrusion
     calculation. First, the base residues (i.e H95 and H102, shown as
     red spheres) of the CDR-H3 (shown in red) are identified. Then, a
-    line is drawn between the two C$\alpha$ atoms of these residues (yellow
-    dashed line). The distance of the C$\alpha$-atom of each residue in the
+    line is drawn between the two \ca\ atoms of these residues (yellow
+    dashed line). The distance of the \ca-atom of each residue in the
     CDR-H3 loop to this line is calculated. The residue which has the
     greatest distance to the line (shown as green sphere) is outputted
     as one-letter amino acid code and used as feature. The distance in
