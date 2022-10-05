@@ -3,7 +3,22 @@
 \usepackage{a4}
 \usepackage{graphicx}
 \usepackage{url}
+\usepackage{color}
 \newcommand{\ca}{\mbox{C$\alpha$}}
+\newcommand{\VH}{\mbox{V\kern-.1667em \lower.5ex\hbox{\scriptsize H}}}
+\newcommand{\VL}{\mbox{V\kern-.1667em \lower.5ex\hbox{\scriptsize L}}}
+\newcommand{\VHVL}{\mbox{\VH/\VL}}
+\newcommand{\CH}[1]{\mbox{C\lower.5ex\hbox{\scriptsize H}#1}}
+\newcommand{\CL}{\mbox{C\kern-.0833em \lower.5ex\hbox{\scriptsize L}}}
+\newcommand{\FV}{\mbox{\it Fv}}
+\newcommand{\Fab}{\mbox{\it Fab}}
+
+\newcommand{\e}[1]{\mbox{$\times 10^{#1}$}}
+\newcommand{\etal}{~\emph{et al.}}
+\newcommand{\degree}{\mbox{${}^{\circ}$}}
+\newcommand{\lilian}[1]{{\color{red}\sout{#1}}}
+\newcommand{\andrew}[1]{{\color{green}\uline{#1}}}
+
 
 \title{Predicting the Quality of CDRH3 Antibody Loop Structural Models}
 \author{Lilian M.\ Denzler and Andrew C.R.\ Martin\\
@@ -143,7 +158,7 @@ contrast, ABodyBuilder uses a database search algorithm
 
 In this project abYmod is used, which is to be found at
 \url{http://abymod.abysis.org/}. The program utilizes extensive canonical
-class definitions, VH/VL angle prediction and a large database of loop
+class definitions, \VHVL\ angle prediction and a large database of loop
 structures (LoopDB) for CDR-H3 modelling to achieve optimal
 results. Upon inputting an antibody sequence, abYmod assigns the
 canonical class using a set of key residues\cite{Martin1996}and where
@@ -153,7 +168,7 @@ sequence identity for the light and heavy chain. Of these, the best
 template is then identified for each CDR using sequence similarity and
 identity. In general, modelling the antibody using the single best
 overall-matching template works best and the CDR-specific templates
-are used if there is no canonical match. The VH/VL packing angle is
+are used if there is no canonical match. The \VHVL\ packing angle is
 then determined either using machine learning or the chosen template
 structure for one of the chains. CDR specific templates, if selected,
 are grafted onto the framework. If there is no template of the correct
