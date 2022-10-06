@@ -113,7 +113,7 @@ loops\cite{Regep2017}.
 
 Apart from being the most structurally diverse, the CDR-H3 loop is
 also the most important for antigen binding, being located at the
-center of the binding site and forming the most contacts with the
+centre of the binding site and forming the most contacts with the
 antigen\cite{MacCallum1996}. It was demonstrated that
 differences in this loop alone are sufficient to enable otherwise
 identical antibodies to distinguish between various
@@ -323,11 +323,11 @@ the most effective. However, PCA-3 BLOSUM62\cite{XXXX}, a dimensionality-reduced
 BLOSUM62 encoding method achieved comparable results.
 Feature selection was conducted to improve the ML-model's learning
 capacity. A high-dimensional feature dataset bears the risk of
-introducing excessive noise, facilitating ML-model overfitting and can be
+introducing excessive noise, facilitating ML-model over-fitting and can be
 responsible for an overall decrease in ML-model performance and
 stability. Each additional input feature forces the ML-model to
 handle a more complex task, which consumes excess computational power
-and time and provides more variables leading to overfitting of the ML-model.
+and time and provides more variables leading to over-fitting of the ML-model.
 
 Our ML-model was trained on different feature sets selected using manual
 selection as well as \highlight{algorithmic selection strategies}\lilian{Which are?}, in order to
@@ -379,7 +379,7 @@ ML-model creation process. Two different methods for hyperparameter
 optimization were tested. The first was a hybrid approach of randomized
 search and grid search; the second used a genetic algorithm for
 optimization. The genetic algorithm was found to achieve slightly
-better results and was employeded for optimizing all ML-models.
+better results and was employed for optimizing all ML-models.
 
 \subsection{Machine Learning Model Performance}
 The overall best final ML-model was composed of several different binary
@@ -485,7 +485,7 @@ stage was omitted in favour of stratified K-folds cross-validation
 (k=10)\cite{Krstajic2014,Kohavi1995}.
 \lilian{I don't really understand what you mean here. The stratified
   cross-validation is going to use a test set in each fold --- it's
-  just that this is selected to fairly represent the inbalance in the
+  just that this is selected to fairly represent the imbalance in the
   training data. Normally the validation set is the set that is held
   back for final testing --- which you say you did.}
 
@@ -536,7 +536,7 @@ pre-processing, feature encoding, feature selection and hyperparameter
 optimization were tested.
 Feature encoding methods that were very high-dimensional
 (one-hot-encoding, BLOSUM62, NLF) were found to be
-unfavorable. Dimensionality reduction methods (Principal Component
+unfavourable. Dimensionality reduction methods (Principal Component
 Analysis (PCA), Independent Component Analysis (ICA), projection-based
 methods e.g.\ t-SNE) were used on BLOSUM62 encoded matrices, which lead
 to significant improvement. However, a physicochemical encoding
