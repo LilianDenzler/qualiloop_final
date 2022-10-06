@@ -73,15 +73,12 @@ London WC1E 6BT, UK
 Antibodies are highly specialized proteins of the immune system that
 are produced in response to a foreign substance, called an antigen. A
 mature antibody binds a specific antigen with high affinity, while
-only weakly interacting with other antigens, or not at all. \lilian{Introduce the use as drugs} This high
-affinity and high specificity sets it apart from other pharmaceuticals.
+only weakly interacting with other antigens, or not at all. \colorbox{green}{This high affinity and high specificity sets them apart from other pharmaceuticals and makes them effective drugs with endless possibilities in application given their ability to target an immense variety of antigens.}
 Furthermore, in contrast with small drug molecules, antibodies can not
 only bind pockets, but also flat, concave or convex
-surfaces\cite{Tavers2001}\lilian{Surely you can find a better reference! e.g. our one!}. Their unique characteristics have enabled 
+surfaces\colorbox{green}{\cite{MacCallum1996}}. Their unique characteristics have enabled 
 researchers to develop efficient antibody drugs for treating cancers,
 autoimmune disorders, infectious diseases and many more\cite{Lu2020}.
-Their ability to target an immense variety of antigens allows for
-endless possibilities in application. 
 Four of the top 10 best-selling drugs in
 2020 were monoclonal antibodies\cite{Urquhart2021}.
 
@@ -98,9 +95,9 @@ The variable
 fragment (Fv) of an antibody contains the six complementarity determining regions
 (CDRs, also known as hypervariable loops) which form the antigen binding site.
 All except one of these loops can be clustered
-into a limited number of `canonical structures'\cite{XXXX}. Therefore, modelling
+into a limited number of `canonical structures'\colorbox{green}{\cite{Al-Lazikani}}. Therefore, modelling
 these loops with adequate accuracy is commonly
-achievable\cite{North2011,Weitzner2015}. \lilian{Is the second reference relevant here?} However, the CDR loop 3 of the 
+achievable\cite{North2011}.  However, the CDR loop 3 of the 
 heavy chain (CDR-H3) has a far greater sequence variability due to the
 processes of V(D)J recombination and somatic hyper‐mutation and its
 structure has remained unclassifiable\cite{Finn2016}. The variety in
@@ -120,25 +117,11 @@ identical antibodies to distinguish between various
 antigens\cite{Xu2000}.
 
 According to the Kabat definition, the CDR-H3 loop is made up of the
-residues 95--105 (using the Kabat\cite{Kabat1992}, Chothia\cite{XXXX} or Martin\cite{XXXX} numbering schemes) in the heavy
+residues 95--105 (using the Kabat\colorbox{green}{\cite{Kabat1992}, Chothia\cite{Al-Lazikani} or Martin\cite{Abhinandan2008}} numbering schemes) in the heavy
 chain, with a potential insertion site at position 100. The
 possibility of such an insertion of a varying number of residues leads
 to a large range of loop lengths, with bovine antibodies being
 exceptionally long (Figure~\ref{fig:loopdist}).
-
-\begin{figure}
-  \centering
-  \includegraphics[width=\linewidth]{loopdist.eps}
-  \caption{Distribution of CDR-H3 loop lengths in mouse (left),
-    human (centre) and cow (right). Mouse and human antibody CDR-H3s
-    have a unimodal, yet almost normal distribution with a range of
-    $\sim$4--28 and 4--38 respectively. The length cut-off for CDR-H3s
-    depicted above is 30 amino acids. Bovine antibodies with
-    significantly longer CDR-H3 loops than depicted here exist,
-    reaching a length of 67 amino acids and
-    above\protect\cite{Wong2015}. \lilian{Do we need this?}}  
-  \label{fig:loopdist}
-\end{figure}
 
 For shorter loops, a higher prediction accuracy can be achieved than
 for longer CDR-H3 loops. This was also shown by the Antibody Modelling
@@ -150,7 +133,7 @@ for loops of longer lengths\cite{Almagro2011,Almagro2014}.
 Several different approaches for generating 
 3D-models from antibody sequences exist such as
 RosettaAntibody\cite{Sircar2009,Sivasubramanian2009}, 
-ABodyBuilder\cite{Leem2016}, PIGSPro\cite{Lepore2017} \lilian{Lyra, AbLooper} and our own abYmod.
+ABodyBuilder\cite{Leem2016}, PIGSPro\cite{Lepore2017}, \colorbox{green}{Lyra\cite{Klausen2015}, AbLooper\cite{Abanades2022}} and our own abYmod.
 One of the most
 used methods is RosettaAntibody, which implements template selection
 and \emph{ab initio} CDR-H3 loop modelling using loop fragments and employing
@@ -186,7 +169,7 @@ structure for the homology modelling process.  However, the CDR loops
 are not as easily predicted due to their great diversity. If the
 canonical conformation of CDR loops CDR-L1,L2,L3,H1,H2 can be identified, they too
 can be modelled rather well, often within 1\AA\ \ca~RMSD, for CDR-H3 loops
-the \lilian{not sure what `average' and `usually' mean here:} average is usually above 3\AA\cite{Almagro2011}.
+the \colorbox{green}{The average values are taken from the antibody modelling assessment} average is usually above 3\AA\cite{Almagro2011}.
 
 ABodyBuilder is a modelling server that provides the user with a
 confidence score for each region (e.g.\ CDR-H2) of the antibody
@@ -279,13 +262,14 @@ After creating the feature dataset, it is pre-processed (cleaning,
 scaling, encoding, see methods for details). Structures with a
 resolution worse than 4\AA\ were removed.
 \lilian{You already said it was a non-redundant set?} \highlight{Identical
-whole antibody structures were removed from the dataset}, \lilian{I don't understand this bit!} \highlight{while
+whole antibody structures were removed from the dataset}, \colorbox{green}{if the entire sequence is a match the structure is deleted. This step is probably unnecessary, given that there should be no such occurences in the non-redundant set.} while
 instances of different antibodies that matched in loop sequence were
-not removed}. 3D-Models of some of these structures with the same loop
+not removed. 3D-Models of some of these structures with the same loop
 sequence differ significantly. The few large RMSD ranges may stem from
-low resolution. For example, the \highlight{highest} \lilian{What does `highest' mean?} datapoint contains a structure with a
-resolution of 3.00\AA.  \lilian{Explain} \highlight{Residue differences near the loop may also
-explain the conformational difference}. Some of these structures are
+low resolution. \colorbox{green}{For example, the loop sequence with the largest RMSD range 
+has multiple structure files linked to it of varying quality, one of which has a resolution of only 3.00\AA. Residue differences near the loop may also
+explain the conformational difference of the loop itself, 
+even if the loop sequence does not differ}. Some of these structures are
 complexed while others are not, which may also affect the loop
 structure (manuscript in preparation).
 
@@ -303,8 +287,8 @@ skewness of the RMSD distribution. However, this was found to
 affect the final ML-model's predictive power negatively. Therefore,
 uniform classes were used.
 
-They are also transformed \lilian{explain?} into a set of binary values according to a
-list of RMSD thresholds. This is done so that binary ML-models can be
+\colorbox{green}{The RMSD values are also transformed into a set of binary values according to a
+list of RMSD thresholds (i.e. a 1 is assigned to above and 0 to below a given threshold).} This is done so that binary ML-models can be
 trained, which will predict the probability e.g.\ that the 3D-model's RMSD
 is above 2\AA, 2.2\AA, 2.4\AA, and so on. The number of binary
 classifiers incorporated into the first layer has a great effect on
