@@ -302,19 +302,21 @@ stability. Each additional input feature forces the ML-model to
 handle a more complex task, which consumes excess computational power
 and time and provides more variables leading to over-fitting of the ML-model.
 
-Our ML-model was trained on different feature sets selected using manual
-selection as well as algorithmic selection strategies (see methods), in order to
-determine the most effective feature selection method. None of the
-feature selection methods was a best fit for all ML-models. To create a ML-model implementing the encoding and feature selection strategies best suited for the specific ML-structure, a number of different combinations were tested, summarized in \ref{fig:results_table}.
-\begin{table}[results_table]
+\begin{table}
     \centering
     \begin{tabular}{c|c}
          &  \\
          & 
     \end{tabular}
     \caption{Summary of Results of different ML-model implementations.}
-    \label{tab:my_label}
+    \label{tab:results_table}
 \end{table}
+
+
+Our ML-model was trained on different feature sets selected using manual
+selection as well as algorithmic selection strategies (see methods), in order to
+determine the most effective feature selection method. None of the
+feature selection methods was a best fit for all ML-models. To create a ML-model implementing the encoding and feature selection strategies best suited for the specific ML-structure, a number of different combinations were tested, summarized in \ref{fig:results_table}.
 
 \lilian{So, having read this, I have no idea what feature encoding you
   actually used, or where to find that information. What worked and
