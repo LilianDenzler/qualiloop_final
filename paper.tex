@@ -317,6 +317,7 @@ Our ML-model was trained on different feature sets selected using manual
 selection as well as algorithmic selection strategies (see methods), in order to
 determine the most effective feature selection method. None of the
 feature selection methods was a best fit for all ML-models. To create a ML-model implementing the encoding and feature selection strategies best suited for the specific ML-structure, a number of different combinations were tested, summarized in \ref{fig:results_table}. Additional ML-Models were discarded due to poor performance. 
+
 \begin{table}[]
 \fontsize{12}{16}\selectfont
   \centering
@@ -350,9 +351,7 @@ Selected (no log-file features) & recursive feature elimination & Genetic Algori
     \end{tabularx}
 
   \end{adjustbox}
-
 \end{table}
-\caption{table caption}
 
 After the data were processed, they were used to train different
 ML-models. Different types of ML-model were investigated, as the most
@@ -552,7 +551,7 @@ Nr. of Contacts & Nr of contacts made by the residue of the loop within a range 
 \hline
 Energy & Potential energy of the model. & Calculated by Gromacs during energy minimization step in abYmod modelling. \\
 \hline
-Lowest BLOSUM 62 Scoring Residue Pair & Each possible residue pair in the CDR-H3loop is scored by their BLOSUM 62 score. The lowest scoring pair's BLOSUM62 value will be combined with their residue separation to form the metric. & With separation being hte nuber of residues between the worst residue pair, and the worst score being the lowest BLOSUM62 score achieved by a residue pair, the metric is calculated as follows: $WorstBLOSUM = -log_2(separation)(worst score)$
+Lowest BLOSUM 62 Scoring Residue Pair & Each possible residue pair in the CDR-H3loop is scored by their BLOSUM 62 score. The lowest scoring pair's BLOSUM62 value will be combined with their residue separation to form the metric. & With separation being hte nuber of residues between the worst residue pair, and the worst score being the lowest BLOSUM62 score achieved by a residue pair, the metric is calculated as follows: $WorstBLOSUM = -log_2(separation)(worst score)$\\
 \hline
 
 
@@ -572,10 +571,10 @@ Lowest BLOSUM 62 Scoring Residue Pair & Each possible residue pair in the CDR-H3
     red spheres) of the CDR-H3 (grey circles) are identified. Then, a
     line is drawn between the two \ca\ atoms of these residues.
     The distance of the \ca-atom of each residue in the
-    CDR-H3 loop to this line is calculated (d). The residue which has the
+    CDR-H3 loop to this line is calculated ($d$). The residue which has the
     greatest distance to the line is output
-    as one-letter amino acid code and used as feature. The distance d in
-    \AA\is used as the `protrusion'
+    as one-letter amino acid code and used as feature. The distance $d$ in
+    \AA\ is used as the `protrusion'
     feature.}
   \label{fig:angle}
 \end{figure}
