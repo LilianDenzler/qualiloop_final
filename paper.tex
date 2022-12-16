@@ -4,6 +4,13 @@
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage{color}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\usepackage{tabularx} 
+\setlength\extrarowheight{2pt} % make the tables look less cramped
+\usepackage{graphicx}
+\usepackage{adjustbox}
 \newcommand{\ca}{\mbox{C$\alpha$}}
 \newcommand{\VH}{\mbox{V\kern-.1667em \lower.5ex\hbox{\scriptsize H}}}
 \newcommand{\VL}{\mbox{V\kern-.1667em \lower.5ex\hbox{\scriptsize L}}}
@@ -27,9 +34,9 @@
 \let\shortcite\cite
 \emergencystretch 1in
 
-\title{Predicting the Quality of CDRH3 Antibody Loop Structural Models}
+\title{Predicting the Quality of CDR-H3 Antibody Loop Structural Models}
 \author{Lilian M.\ Denzler and Andrew C.R.\ Martin\\
-Structural and Molecular Biology, Division of Biosciences,\\
+Institute of Structural and Molecular Biology, Division of Biosciences,\\
 University College of London,\\
 Gower Street,\\
 London WC1E 6BT, UK
@@ -45,15 +52,14 @@ London WC1E 6BT, UK
   have become invaluable for antibody engineering and the development
   of therapeutic antibodies. The antigen-binding site consists of six
   hypervariable loops, also known as the Complementary Determining
-  Regions (CDRs), all of which can be modelled with adequate accuracy,
-  except for one. It remains remarkably difficult to model the third CDR
-  loop of the antibody heavy chain. CDR-H3 has
+  Regions (CDRs), all of which can be modelled with high accuracy,
+  except for CDR-H3, which generally has
   far greater length and sequence variability, with such great structural
   diversity, that modelling it is considerably harder.
 
   Many approaches for antibody modelling, such as our
   abYmod software, have been developed. Although such efforts have
-  improved prediction accuracy the results for CDR-H3 are
+  improved prediction accuracy, the results for CDR-H3 are
   still inconsistent and require further improvement. Providing a
   confidence score for the structure predictions would aid in
   differentiating well-modelled structures from incorrectly modelled
@@ -72,9 +78,8 @@ London WC1E 6BT, UK
 
 Antibodies are highly specialized proteins of the immune system that
 are produced in response to a foreign substance, called an antigen. A
-mature antibody binds a specific antigen with high affinity, while
-only weakly interacting with other antigens, or not at all. This high affinity and high specificity sets them apart from other pharmaceuticals and makes them effective drugs with endless possibilities in application given their ability to target an immense variety of antigens.
-Furthermore, in contrast with small drug molecules, antibodies can not
+mature antibody binds a specific antigen with high affinity and specificity. This sets them apart from other pharmaceuticals and makes them effective drugs with endless possibilities in application given their ability to target an immense variety of antigens.
+In contrast with small drug molecules, antibodies can not
 only bind pockets, but also flat, concave or convex
 surfaces\cite{MacCallum1996}. Their unique characteristics have enabled 
 researchers to develop efficient antibody drugs for treating cancers,
@@ -84,7 +89,7 @@ Four of the top 10 best-selling drugs in
 
 In order to design therapeutic antibodies rationally, knowledge of
 their structure is essential. The acquired structural information can
-be used to increase binding affinity to a target of interest,
+be used to modify binding affinity to a target of interest,
 predicting both the exact binding site and the antibody stability as
 well as assessing immunogenicity\cite{Abhinandan2007}. As
 experimental structure determination is costly and time
@@ -98,7 +103,7 @@ All except one of these loops can be clustered
 into a limited number of `canonical structures'\cite{Al-Lazikani}. Therefore, modelling
 these loops with adequate accuracy is commonly
 achievable\cite{North2011}.  However, the CDR loop 3 of the 
-heavy chain (CDR-H3) has a far greater sequence variability due to the
+heavy chain (CDR-H3) has a far greater sequence and length variability due to the
 processes of V(D)J recombination and somatic hyper‐mutation and its
 structure has remained unclassifiable\cite{Finn2016}. The variety in
 structure is so great, that its structural diversity is remarkable
@@ -214,20 +219,26 @@ between the crystal structures
 and modelled structures was calculated (see Methods) and
 was used to classify 3D-models.
 
+The classifier predicts whether a 3D-model has an RMSD of below 2\AA,
+between 2--4\AA, or above 4\AA. These cutoff values were selected
+based on the observation that abYmod generally produces a 3D-model with
+RMSD below 4\AA. Incorrectly modelled structures (Figure~\ref{fig:AMA}) may
+be identified by screening for structures estimated to have an RMSD
+above 4\AA. If a very high-quality 3D-model is needed one should also
+exclude 3D-models with RMSD above 2\AA.
+
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{AMA.eps}
   \caption {RMSD values of the CDR-H3 loop for structures from the
     Antibody Modelling Assessment I (2011) and AMAII (2014). abYmod
     outperforms other modelling software in some instances, but also
-    has much lower accuracy in few outlier cases. Left: an abYmod
-    structure for C705 could be generated, yet the RMSD calculation
-    failed \lilian{Why? I'm sure we can resolve this!}.
+    has much lower accuracy in few outlier cases. 
     Right: Ab01 is the rabbit antibody PDB:4MA3, which was
     excluded in the CDR-H3 modelling stage in AMAII due to
     difficulties modelling the overall structure previously. Ab01 is
     shown for the methods, where generated 3D-models were adequate for
-    RMSD calculation. \lilian{This needs better explanation}}
+    RMSD calculation.}
   \label{fig:AMA}
 \end{figure}
 
@@ -283,7 +294,7 @@ trained, which will predict the probability e.g.\ that the 3D-model's RMSD
 is above 2\AA, 2.2\AA, 2.4\AA, and so on. The number of binary
 classifiers incorporated into the first layer has a great effect on
 the final ML-model, the general trend being that the more binary
-classifiers are used, the better the nominal prediction. \lilian{Data?}
+classifiers are used, the better the nominal prediction. 
 
 \subsection{Feature Encoding and Selection}
 
@@ -305,20 +316,43 @@ and time and provides more variables leading to over-fitting of the ML-model.
 Our ML-model was trained on different feature sets selected using manual
 selection as well as algorithmic selection strategies (see methods), in order to
 determine the most effective feature selection method. None of the
-feature selection methods was a best fit for all ML-models. To create a ML-model implementing the encoding and feature selection strategies best suited for the specific ML-structure, a number of different combinations were tested, summarized in \ref{fig:results_table}.
-\begin{table}[results_table]
-    \centering
-    \begin{tabular}{c|c}
-         &  \\
-         & 
-    \end{tabular}
-    \caption{Summary of Results of different ML-model implementations.}
-    \label{tab:my_label}
-\end{table}
+feature selection methods was a best fit for all ML-models. To create a ML-model implementing the encoding and feature selection strategies best suited for the specific ML-structure, a number of different combinations were tested, summarized in \ref{fig:results_table}. Additional ML-Models were discarded due to poor performance. 
+\begin{table}[]
+\fontsize{12}{16}\selectfont
+  \centering
+  \caption{Summary of Machine-Learning Classifier Performances}
+  \label{my-label}
 
-\lilian{So, having read this, I have no idea what feature encoding you
-  actually used, or where to find that information. What worked and
-  what didn't? Where can I find a comparison of the performance?}
+  \begin{adjustbox}{width=\textwidth}
+
+    \begin{tabularx}{\linewidth}{
+    |>{\hsize=.35\hsize}X|% 10% of 4\hsize 
+    >{\hsize=.4\hsize}X|% 30% of 4\hsize
+    >{\hsize=.4\hsize}X|% 30% of 4\hsize 
+    >{\hsize=.4\hsize}X|% 30% of 4\hsize
+    >{\hsize=.4\hsize}X|% 30% of 4\hsize 
+    >{\hsize=.4\hsize}X|% 30% of 4\hsize
+    >{\hsize=.2\hsize}X|% 30% of 4\hsize
+       % sum=4.0\hsize for 4 columns
+  }
+\hline
+Features & Feature Selection Method & Optimi-zation Method& Multi/ Single-layer & First-layer weighted &Classifier Type & MCC\\
+\hline
+Basic & None & None & single & No & SVC & 0.54\\
+Basic & None & Genetic Algorithm & single & No & SVC & 0.54 \\
+All & None & None & single& No & Random Forest & 0.58\\
+Selected & random forest feature selection & Genetic Algorithm & Single& No & Soft Voting & 0.59 \\
+Selected & random forest feature selection & Genetic Algorithm & Multi& Yes & XGB & 0.63 \\
+Selected & recursive feature elimination & Genetic Algorithm & Multi& Yes & XGB & 0.79 \\
+Selected & recursive feature elimination & Genetic Algorithm & Multi& Yes & Decision-Tree & 0.99 \\
+Selected (no log-file features) & recursive feature elimination & Genetic Algorithm & Multi& Yes & Voting(soft) & 0.92 \\
+\hline
+    \end{tabularx}
+
+  \end{adjustbox}
+
+\end{table}
+\caption{table caption}
 
 After the data were processed, they were used to train different
 ML-models. Different types of ML-model were investigated, as the most
@@ -329,8 +363,6 @@ K-nearest neighbours classifier, decision tree classifier, Gaussian
 NB, random forest classifier, support vector machine,
 probability-based voting (also known as soft voting) and extreme
 gradient boosting (XGBoost)\cite{Chen2016}.
-\lilian{OK, but this is the Results section, so where are the results
-  of using the different methods?}
 
 The best ML-model, and its best hyperparameters, are then determined for
 each binary RMSD target. The set of binary ML-models outputs a number of
@@ -356,26 +388,16 @@ better results and was employed for optimizing all ML-models.
 
 \subsection{Machine Learning Model Performance}
 The overall best final ML-model was composed of several different binary
-classifiers,\lilian{More detail!} with an extreme gradient boosting (XGBoost) top-layer
-nominal classifier. Features were selected using random forest feature
-selection.
-\lilian{Explain how this works and which features were selected --- and how many?}
-A final MCC\lilian{Explain how MCC is calculated over 3 classes} value of 0.99 could be achieved for an ML-model
-using the abYmod log file \lilian{What parameters are actually used?} as input as well as the loop 3D-model file
+classifiers, \ref{fig:flow} with an extreme gradient boosting (XGBoost) top-layer
+nominal classifier. Features were selected using a recursive feature elimination algorithm, through which a the weakest feature is removed recursively and the model performance is tested. In the final model 9 features are included: in the final model, the following features were included: tip\_pos, protrusion, length, total\_charge, nr\_charged, identity, similarity, Hydropathy and Hydropathy\_diff \ref{fig:feature_table}.
+
+A final MCC value of 0.99 could be achieved for an ML-model
+using the abYmod log file as input as well as the loop 3D-model file
 itself. This value slightly dropped to 0.92 if no such log file was
-given. This is mainly\lilian{is there anything else?} due to the fact that the template sequence
+given. This is due to the fact that the template sequence
 abYmod used to generate the 3D-model is unknown in the latter case.
 
-\lilian{I'm not sure this is in the most logical place --- isn't this
-  something that was chosen at the start? (At least in terms of
-  telling the story}
-The classifier predicts whether a 3D-model has an RMSD of below 2\AA,
-between 2--4\AA, or above 4\AA. These cutoff values were selected
-based on the observation that abYmod generally produces a 3D-model with
-RMSD below 4\AA. Incorrectly modelled structures (Figure~\ref{fig:AMA}) may
-be identified by screening for structures estimated to have an RMSD
-above 4\AA. If a very high-quality 3D-model is needed one should also
-exclude 3D-models with RMSD above 2\AA.
+
 
 The software
 was tested on a test-set of antibody structures used in the 2014 and
@@ -387,6 +409,13 @@ values increase abYmod's RMSD average. The predictor in this work
 would aim to identify such outlier 3D-models.
 
 
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{flowchart_qualiloop.eps}
+  \caption {Simplified pipeline for creating the final machine learning model that will predict 3D-model quality by giving its RMSD range.}
+  \label{fig:flow}
+\end{figure}
+ 
 \section{Methods}
 
 \subsection{Computing}
@@ -409,12 +438,10 @@ removed from the dataset (11 rows in total).
 
 \subsubsection{Duplicate Screening}
 Using AbDb's redundancy information it was ensured that no antibodies
-were present in the dataset more than once. \highlight{The dataset was
-  additionally screened for duplicate instances.}
-\lilian{Did you find any? How was this screening done? It's far from trivial}
+were present in the dataset more than once.
 
 \subsubsection{Scaling}
-Normalization and Standardization\lilian{What's the difference? Explain what they are.} were tested as scaling methods. Both
+Normalization and Standardization were tested as scaling methods. In normalization the range of the data is fixed between 0 and 1, while in Standardization the data is re-scaled to fit a Gaussian distribution. Both
 approaches are greatly influenced by outliers, and such datapoints are
 ideally removed for optimal scaling. Here we define outliers as
 datapoints that lie over 1.5 times the interquartile range (IQR) below
@@ -474,27 +501,82 @@ accuracy. It is also consistent for both binary and multi-class
 problems and therefore well suited for our purpose.\cite{Jurman2012}
  
 \subsection{Feature Calculations}
-\begin{figure}
+
+\begin{table}[]
   \centering
-  \includegraphics[width=\linewidth]{feature_table.eps}
-  \caption {A summary of how different feature values were calculated. \lilian{It's a table! Why import it?}}
+  \caption{A summary of how different feature values were calculated.}
   \label{fig:feature_table}
-\end{figure}
+
+  \begin{adjustbox}{width=\textwidth}
+
+    \begin{tabular}{| m{5em} | m{20em}| m{20em} |}
+    \hline
+Feature Name & Description & method of Calculation \\
+\hline
+\hline
+Sequence & Amino acid sequence of the CDR-H3 loop. & Sequence is given in one-letter amino acid codes.\\
+\hline
+Length & Number of residues in the CDRH3-loop, which is located at residues H95-H102. & The number of residues are counted.\\
+\hline
+Sequence Identity & Sequence identity of selected template (SeqA) with input loop sequence (SeqB) is determined after sequence alignment. Calculated by abYmod during modelling. & $Identity(SeqA,SeqB) = 100\%\frac{identical residues}{length(alignment)}$\\
+\hline
+Sequence similarity & Sequence similarity of selected template (SeqA) with input loop sequence (SeqB) is determined after sequence alignment. Calculated by abYmod during modelling. Similar residues are residues that have undergone conservative substitution. &
+$Similarity(SeqA,SeqB) = 100\%\frac{identical residues+similar residues}{length(alignment)}$\\
+\hline
+Loop Protrusion & Distance of loop residue further away from the loop base & Geometrical calculations \protect\ref{fig:loopdist} \\
+\hline
+Protruding residue & The Amino acid code of the most protruding loop residue & Using the previously determined point furthest away from the loop base, the residue at this coordinate is determined and given as a one-letter amino acid code.\\
+\hline
+Charge & Total charge of the loop & Sum of charges of all residues in loop \\
+\hline
+Charge difference & Difference in total charge compared to template sequence & Difference between the two summed changes \\
+\hline
+Hydrophobicity & Mean Hydrophobicity values of loop & Based on Eisenberg consensus values\\
+\hline
+Hydrophobicity  difference & Sum of absolute differences between loop sequence and template loop& Based on Eisenberg consensus values\\
+\hline
+Accessibility & Total and average accessibility for the loop& lee-Richards method implemented using the pdbsolv method from the BiopTools library.\\
+\hline
+Side-chain Accessibility & Total and average side-chain accessibility for the loop& lee-Richards method implemented using the pdbsolv method from the BiopTools library.\\
+\hline
+Relative Accessibility & Total and average relative accessibility for the loop& lee-Richards method implemented using the pdbsolv method from the BiopTools library.\\
+\hline
+relative side-chain Accessibility & Total and average relative side-chain accessibility for the loop& lee-Richards method implemented using the pdbsolv method from the BiopTools library.\\
+\hline
+Happiness & Happiness score, taking accessibility and hydropobicity into account. If a residue is 'happy' it will not be a buried hydrophilic or a surface hydrophobic residue. & Hydrophobicity values (see above) are normalized to a range of -1 to +1. Mean accessibility values are calculated as above. If hydrophobicity of loop is $<0$:
+$Happiness = 1+Hydrophobicity(1-Accessibility)$
+Otherwise:
+$Happiness = 1-(Hydrophobicity Accessibility)$\\
+\hline
+Nr. of Contacts & Nr of contacts made by the residue of the loop within a range of 3.5\AA. Includes mainchain as well as sidechain atoms. Contacts made with residue within and outside of the loop are counted separately and as total. The ratio of inside vs outside is also calculated. & Modified version of the rangecontacts method in the BiopTools library. \\
+\hline
+Energy & Potential energy of the model. & Calculated by Gromacs during energy minimization step in abYmod modelling. \\
+\hline
+Lowest BLOSUM 62 Scoring Residue Pair & Each possible residue pair in the CDR-H3loop is scored by their BLOSUM 62 score. The lowest scoring pair's BLOSUM62 value will be combined with their residue separation to form the metric. & With separation being hte nuber of residues between the worst residue pair, and the worst score being the lowest BLOSUM62 score achieved by a residue pair, the metric is calculated as follows: $WorstBLOSUM = -log_2(separation)(worst score)$
+\hline
+
+
+    \end{tabular}
+
+  \end{adjustbox}
+
+\end{table}
+
 
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{angle.eps}
-  \caption {Diagram \lilian{Needs a much simpler cartoon diagram --- it's difficult to see anything from this!}
+  \includegraphics[scale=0.5]{protrusion.eps}
+  \caption {Diagram
     visualizing the process underlying the protrusion
     calculation. First, the base residues (i.e.\ H95 and H102, shown as
-    red spheres) of the CDR-H3 (shown in red) are identified. Then, a
-    line is drawn between the two \ca\ atoms of these residues (yellow
-    dashed line). The distance of the \ca-atom of each residue in the
-    CDR-H3 loop to this line is calculated. The residue which has the
-    greatest distance to the line (shown as green sphere) is output
-    as one-letter amino acid code and used as feature. The distance in
-    \AA\ (depicted as yellow arrow) is used as the `protrusion'
-    feature. \lilian{It's unclear whether you use both distance and amino acid, or just one of these.}}
+    red spheres) of the CDR-H3 (grey circles) are identified. Then, a
+    line is drawn between the two \ca\ atoms of these residues.
+    The distance of the \ca-atom of each residue in the
+    CDR-H3 loop to this line is calculated (d). The residue which has the
+    greatest distance to the line is output
+    as one-letter amino acid code and used as feature. The distance d in
+    \AA\is used as the `protrusion'
+    feature.}
   \label{fig:angle}
 \end{figure}
 
@@ -518,7 +600,7 @@ strategy was most effective.
 The selection of features incorporated in the training set seemed to
 be most important for effective learning. A multitude of methods were
 tested. No one fit-for-all method for the different ML-models could be
-found.\lilian{I'm not sure what this means.} However, for our top-layer classifier in our final ML-model
+found. However, for our top-layer classifier in our final ML-model
 recursive feature elimination worked best.
 A set of commonly used machine learning algorithms were tested, and
 the best ML-models were incorporated into the final ensemble ML-model. A
@@ -533,23 +615,6 @@ We are now looking at incorporating the predictor into the antibody
 modelling process in the selection of high quality CDR-H3 models given
 a set of potential decoys.
 
-\highlight{In a future research project residue patterns in correlation with RMSD
-may be analyzed. Possibly, one might identify certain sequence
-patterns that make accurate modelling with abYmod more
-difficult. Furthermore, separate classifiers according to loop length
-can be built. Given that loop length is the most important determinant
-of 3D-model quality, this approach may yield some insight into the
-challenges of modelling shorter \emph{vs.} longer loops.
-One could also conduct an analysis of the predictor's behaviour when
-abYmod is forced to use LoopDB-based modelling. This might shed light
-on whether the ML-model presented in this paper is biased towards
-abYmod's used source of template structures. It would also give an
-indication of how well the predictor would work in combination with
-other modelling software.}\lilian{We don't really need this, but can we see any trends from the feature selection?}
-
-\lilian{We need a concluding paragraph relating back to the
-  introduction and what this contributes to improvements in using
-  antibody models.}
 
 \bibliography{references}
 
