@@ -128,7 +128,8 @@ residues H95--H102 (using the Kabat\cite{Kabat1992}, Chothia\cite{Al-Lazikani} o
 chain, with a potential insertion site at position H100. The
 possibility of such an insertion of a varying number of residues leads
 to a large range of loop lengths, with bovine antibodies being
-exceptionally long (Figure~\ref{fig:loopdist}).\lilian{Figure missing!}
+exceptionally long.
+
 
 For shorter loops, a higher prediction accuracy can be achieved than
 for longer CDR-H3 loops. This was also shown in the Antibody Modelling
@@ -175,8 +176,8 @@ generally be predicted with great accuracy (better than 1\AA\
 structure for the homology modelling process.  However, the CDR loops
 are not as easily predicted due to their great diversity. If the
 canonical conformation of CDR loops CDR-L1,L2,L3,H1,H2 can be identified, they too
-can be modelled rather well, often within 1\AA\ \ca~RMSD. \highlight{for CDR-H3 loops
-the The average values are taken from the antibody modelling assessment average} is usually above 3\AA\cite{Almagro2011}. \lilian{Something odd here --- not sure what it's supposed to say!}
+can be modelled rather well, often within 1\AA\ \ca~RMSD, for CDR-H3 loops
+the average is usually above 3\AA\cite{Almagro2011}. The average values are taken from the second antibody modelling assessment \cite{Almagro2014}.
 
 ABodyBuilder is a modelling server that provides the user with a
 confidence score for each region (e.g.\ CDR-H2) of the antibody
@@ -266,10 +267,9 @@ extracted as features \cite{Thomsen2012,Shaner1993}.
 After creating the feature dataset, it is pre-processed (cleaning,
 scaling, encoding, see methods for details). Structures with a
 resolution worse than 4\AA\ were removed.
-Instances of antibodies in our non-redundant dataset that matched in loop sequence were
-not removed as 3D-Models \lilian{Just checking you mean models not structures? Do the structures also differ significantly, or do you really mean that the error varies significantly?} of some of these structures with the same loop
-sequence differ significantly.
-\lilian{If I understand correctly, you mean that CDR-H3 could have the same sequence in multiple structures, but the overall sequence was different?}
+Instances of antibody structures in our non-redundant dataset that matched in loop sequence (but the overall sequence was different) were
+not removed as 3D-Models of some of these structures with the same loop
+sequence differ significantly. 
 The few large RMSD ranges may stem from
 low resolution. For example, the loop sequence with the largest RMSD range 
 has multiple structure files linked to it of varying quality, one of which has a resolution of only 3.00\AA. Residue differences near the loop may also
@@ -295,10 +295,18 @@ uniform classes were used.
 The RMSD values are also transformed into a set of binary values according to a
 list of RMSD thresholds (i.e. a 1 is assigned to above and 0 to below a given threshold). This is done so that binary ML-models can be
 trained, which will predict the probability e.g.\ that the 3D-model's RMSD
-is above 2\AA, 2.2\AA, 2.4\AA, and so on. \highlight{The number of binary
-classifiers incorporated into the first layer} \lilian{You need to describe the overall architecture first so this makes sense. I would have a much simpler version of Figure~\ref{fig:flow} which just shows the ML architecture}  has a great effect on
+is above 2\AA, 2.2\AA, 2.4\AA, and so on. Several of these binary classifiers form a first layer, each outputting a prediction on whether the model is above or below the respective threshold. The outcome values are then fed into a second-layer classifier (Figure~\ref{fig:flow}). The number of binary
+classifiers incorporated into the first layer has a great effect on
 the final ML-model, the general trend being that the more binary
 classifiers are used, the better the nominal prediction. 
+
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{simple_flow.eps}
+  \caption {Simplified pipeline for creating the final machine learning model that will predict 3D-model quality by giving its RMSD range.}
+  \label{fig:flow}
+\end{figure}
 
 \subsection{Feature Encoding and Selection}
 
@@ -414,13 +422,6 @@ other modelling programs. However, some outliers with very high RMSD
 values increase abYmod's RMSD average. The predictor in this work
 would aim to identify such outlier 3D-models.
 
-
-\begin{figure}
-  \centering
-  \includegraphics[width=\textwidth]{flowchart_qualiloop.eps}
-  \caption {Simplified pipeline for creating the final machine learning model that will predict 3D-model quality by giving its RMSD range. \lilian{Make Black and WHite!}}
-  \label{fig:flow}
-\end{figure}
  
 \section{Methods}
 
