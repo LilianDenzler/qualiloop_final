@@ -330,12 +330,12 @@ determine the most effective feature selection method, the
 ML-model was trained on different feature sets selected using manual
 selection as well as algorithmic selection strategies (see methods).
 None of the
-feature selection methods was a best fit for all ML-models. To create a ML-model implementing the encoding and feature selection strategies best suited for the specific \highlight{ML-structure} \lilian{What is this?}, a number of different combinations were tested, summarized in Table~\ref{tab:results_table}. Additional ML-Models were discarded due to poor performance. 
+feature selection methods was a best fit for all ML-models. To create a ML-model implementing the encoding and feature selection strategies best suited for the specific types of ML-classifiers selected for the first-layer and top-layer model in combination, a number of different combinations were tested, summarized in Table~\ref{tab:results_table}. Additional ML-Models were discarded due to poor performance. 
 
 \begin{table}
   \centering
-  \caption{Summary of Machine-Learning Classifier Performances \lilian{Is this just the top-level classifier? You need something providing this sort of info for the final selection for the binary classifiers. What is multi-/single-layer? What is `First-layer weighted'? Is it needed given that i is always Yes for Multi and No for Single? What is `SVC'? Is `Soft Voting' the same as `Voting(soft)'? What are `Basic' features?}}
-  \label{tab:results_tableX}
+  \caption{Summary of Machine-Learning Classifier Performances. The classifier type denotes the top-layer classifier. A single-layer model has no binary first layer, only the top-layer classifier. If the first layer is weighted, the binary predictions will carry more weight, the higher their certainty is.  \lilian{Is this just the top-level classifier? You need something providing this sort of info for the final selection for the binary classifiers. What is multi-/single-layer? What is `First-layer weighted'? Is it needed given that i is always Yes for Multi and No for Single? What is `SVC'? Is `Soft Voting' the same as `Voting(soft)'? What are `Basic' features?}}
+  \label{tab:results_table}
 
   \small
   \begin{tabular}{lllllll}\hline
@@ -345,7 +345,7 @@ feature selection methods was a best fit for all ML-models. To create a ML-model
     Basic           & None          & None              & Single   & No        & SVC           & 0.54 \\
     Basic           & None          & GA$^\dag$         & Single   & No        & SVC           & 0.54 \\
     All             & None          & None              & Single   & No        & Random Forest & 0.58 \\
-    Selected        & Random Forest & GA                & Single   & No        & Soft Voting   & 0.59 \\
+    Selected        & Random Forest & GA                & Single   & No        & Voting (soft)   & 0.59 \\
     Selected        & Random Forest & GA                & Multi    & Yes       & XGBoost       & 0.63 \\
     Selected        & Recursive     & GA                & Multi    & Yes       & XGBoost       & 0.79 \\
                     & Feature       &                   &          &           &               &      \\
